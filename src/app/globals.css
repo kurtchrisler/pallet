@@ -1,0 +1,120 @@
+@import "tailwindcss";
+
+:root {
+  --paper: #eef0ec;
+  --surface: #fbfbf8;
+  --surface-2: #f2f3ef;
+  --ink: #1d2321;
+  --ink-soft: #5b6158;
+  --ink-faint: #8a8f84;
+  --line: #d7d9d0;
+  --line-strong: #c2c5b9;
+  --accent: #b5490b;
+  --accent-ink: #ffffff;
+  --accent-soft: #f3e2d6;
+  --amber: #93650b;
+  --amber-soft: #f1e6cc;
+  --good: #2f6b4f;
+  --good-soft: #e1eee5;
+  --alert: #a22c2c;
+  --alert-soft: #f5e1de;
+  --radius: 5px;
+  --radius-lg: 8px;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-faint: var(--ink-faint);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-soft: var(--accent-soft);
+  --color-amber: var(--amber);
+  --color-amber-soft: var(--amber-soft);
+  --color-good: var(--good);
+  --color-good-soft: var(--good-soft);
+  --color-alert: var(--alert);
+  --color-alert-soft: var(--alert-soft);
+  --font-display: "Oswald", system-ui, sans-serif;
+  --font-body: "Work Sans", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #181a16;
+    --surface: #212420;
+    --surface-2: #262922;
+    --ink: #ecebe2;
+    --ink-soft: #a7ac9e;
+    --ink-faint: #787d71;
+    --line: #34372e;
+    --line-strong: #43473b;
+    --accent: #e0692c;
+    --accent-ink: #1a1300;
+    --accent-soft: #3a2415;
+    --amber: #d9a233;
+    --amber-soft: #332a11;
+    --good: #5fa47f;
+    --good-soft: #1e2d22;
+    --alert: #e2685f;
+    --alert-soft: #34201c;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body), system-ui, sans-serif;
+  line-height: 1.45;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  margin: 0;
+}
+
+.mono {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-size: 0.92rem;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  padding: 0.55rem 0.65rem;
+  width: 100%;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+::placeholder {
+  color: var(--ink-faint);
+}

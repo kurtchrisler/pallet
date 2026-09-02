@@ -1,4 +1,4 @@
-Item Name,Category,Condition,Quantity,Estimated Value,Note
-"Cordless drill, open box",Tools & Hardware,Good,1,45.00,Missing charger
-Bluetooth speaker,Electronics,Like New,3,20.00,
-Throw pillow set,Home & Kitchen,New,5,8.50,
+Item Name,Brand,Category,Condition,Item #,UPC,Quantity,Estimated Value,Retail Value,Note
+"Cordless drill, open box",DeWalt,Tools & Hardware,Good,DCD701,123456789012,1,45.00,89.00,Missing charger
+Bluetooth speaker,JBL,Electronics,Like New,JBL-FLIP6,987654321098,3,20.00,49.99,
+Throw pillow set,,Home & Kitchen,New,,,5,8.50,15.00,

@@ -26,11 +26,15 @@ export async function GET() {
   const rows: unknown[][] = [
     [
       "Item",
+      "Brand",
+      "Item #",
+      "UPC",
       "Pallet Source",
       "Pallet Date",
       "Category",
       "Condition",
       "Est. Value",
+      "Retail Value",
       "Allocated Cost",
       "Status",
       "Sale Price",
@@ -44,11 +48,15 @@ export async function GET() {
     const sale = saleByItem.get(item.id);
     rows.push([
       item.name,
+      item.brand,
+      item.item_number,
+      item.upc,
       pallet?.source ?? "",
       pallet?.purchase_date ?? "",
       item.category,
       item.condition,
       Number(item.est_value).toFixed(2),
+      Number(item.retail_value).toFixed(2),
       cost.toFixed(2),
       item.status === "sold" ? "Sold" : "In Stock",
       sale ? Number(sale.price).toFixed(2) : "",

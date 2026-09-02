@@ -84,6 +84,9 @@ export default async function ItemsPage({
           <Field label="Item name">
             <input name="name" required defaultValue={editing?.name ?? ""} placeholder="e.g. Cordless drill, open box" />
           </Field>
+          <Field label="Brand">
+            <input name="brand" defaultValue={editing?.brand ?? ""} placeholder="Optional" />
+          </Field>
           <Field label="Category">
             <input name="category" list="catList" defaultValue={editing?.category ?? ""} placeholder="Category" />
             <datalist id="catList">
@@ -101,8 +104,17 @@ export default async function ItemsPage({
               ))}
             </select>
           </Field>
+          <Field label="Item #">
+            <input name="item_number" defaultValue={editing?.item_number ?? ""} placeholder="Optional" />
+          </Field>
+          <Field label="UPC">
+            <input name="upc" defaultValue={editing?.upc ?? ""} placeholder="Optional" />
+          </Field>
           <Field label="Est. resale value ($)">
             <input type="number" step="0.01" min="0" name="est_value" defaultValue={editing?.est_value ?? ""} placeholder="0.00" />
+          </Field>
+          <Field label="Retail value ($)">
+            <input type="number" step="0.01" min="0" name="retail_value" defaultValue={editing?.retail_value ?? ""} placeholder="0.00" />
           </Field>
           <Field label="Note">
             <input name="note" defaultValue={editing?.note ?? ""} placeholder="Optional" />
@@ -157,6 +169,7 @@ export default async function ItemsPage({
                 <th className="px-2.5 py-2">Pallet</th>
                 <th className="px-2.5 py-2">Category</th>
                 <th className="px-2.5 py-2">Condition</th>
+                <th className="px-2.5 py-2 text-right">Retail</th>
                 <th className="px-2.5 py-2 text-right">Alloc. Cost</th>
                 <th className="px-2.5 py-2">Status</th>
                 <th className="px-2.5 py-2" />
@@ -171,11 +184,19 @@ export default async function ItemsPage({
                   <tr key={i.id} className="border-t border-line">
                     <td className="px-2.5 py-2">
                       {i.name}
+                      {(i.brand || i.item_number || i.upc) && (
+                        <div className="text-xs text-ink-faint">
+                          {[i.brand, i.item_number && `#${i.item_number}`, i.upc && `UPC ${i.upc}`]
+                            .filter(Boolean)
+                            .join(" · ")}
+                        </div>
+                      )}
                       {i.note && <div className="text-xs text-ink-faint">{i.note}</div>}
                     </td>
                     <td className="px-2.5 py-2">{p?.source ?? "—"}</td>
                     <td className="px-2.5 py-2">{i.category}</td>
                     <td className="px-2.5 py-2">{i.condition}</td>
+                    <td className="px-2.5 py-2 text-right mono">{i.retail_value ? fmtMoney(i.retail_value) : "—"}</td>
                     <td className="px-2.5 py-2 text-right mono">{fmtMoney(cost)}</td>
                     <td className="px-2.5 py-2">
                       {i.status === "sold" ? (

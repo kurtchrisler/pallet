@@ -6,29 +6,54 @@ export const MAX_INPUT_ROWS = 1000;
 export const MAX_QTY_PER_ROW = 200;
 export const MAX_ITEMS = 2000;
 
-export type TargetFieldKey = "name" | "category" | "condition" | "quantity" | "est_value" | "note" | "ignore";
+export type TargetFieldKey =
+  | "name"
+  | "brand"
+  | "category"
+  | "condition"
+  | "upc"
+  | "item_number"
+  | "quantity"
+  | "est_value"
+  | "retail_value"
+  | "note"
+  | "ignore";
 
 export const TARGET_FIELDS: { key: TargetFieldKey; label: string; required?: boolean }[] = [
   { key: "name", label: "Item Name", required: true },
+  { key: "brand", label: "Brand" },
   { key: "category", label: "Category" },
   { key: "condition", label: "Condition" },
+  { key: "item_number", label: "Item #" },
+  { key: "upc", label: "UPC" },
   { key: "quantity", label: "Quantity" },
   { key: "est_value", label: "Estimated Value ($)" },
+  { key: "retail_value", label: "Retail Value ($)" },
   { key: "note", label: "Note" },
   { key: "ignore", label: "— Ignore this column —" },
 ];
 
 const GUESS_KEYS: Record<Exclude<TargetFieldKey, "ignore">, string[]> = {
   name: ["itemname", "item", "name", "description", "product", "productname"],
+  brand: ["brand", "manufacturer", "make"],
   category: ["category", "cat"],
   condition: ["condition"],
+  item_number: ["itemnumber", "itemno", "sku", "modelnumber", "model", "mfrpartnumber", "partnumber"],
+  upc: ["upc", "upccode", "barcode", "ean", "gtin"],
   quantity: ["quantity", "qty", "count"],
   est_value: ["estvalue", "estimatedvalue", "estimatedresalevalue", "resalevalue", "resaleprice", "value", "price"],
+  retail_value: ["retailvalue", "retailprice", "msrp", "listprice", "originalprice"],
   note: ["note", "notes", "comment", "comments"],
 };
 
 export function normalizeKey(key: string): string {
-  return key.toLowerCase().replace(/[^a-z0-9]/g, "");
+  // "#" is turned into "no" (so "Item #" reads the same as "Item No.") before
+  // stripping punctuation, otherwise "Item #" and bare "Item" both collapse
+  // to "item" and become indistinguishable.
+  return key
+    .toLowerCase()
+    .replace(/#/g, "no")
+    .replace(/[^a-z0-9]/g, "");
 }
 
 /** A spreadsheet column, keyed by its position — not its header text, since
@@ -63,9 +88,13 @@ export function guessMapping(columns: ImportColumn[]): Record<number, TargetFiel
 
 export type MappedItem = {
   name: string;
+  brand: string;
   category: string;
   condition: string;
+  upc: string;
+  item_number: string;
   est_value: number;
+  retail_value: number;
   note: string;
 };
 
@@ -80,13 +109,18 @@ export function applyMapping(rows: unknown[][], mapping: Record<number, TargetFi
   };
   const nameCol = colFor("name");
   if (nameCol === -1) return [];
+  const brandCol = colFor("brand");
   const categoryCol = colFor("category");
   const conditionCol = colFor("condition");
+  const upcCol = colFor("upc");
+  const itemNumberCol = colFor("item_number");
   const quantityCol = colFor("quantity");
   const valueCol = colFor("est_value");
+  const retailCol = colFor("retail_value");
   const noteCol = colFor("note");
 
   const cell = (row: unknown[], col: number) => (col === -1 ? "" : String(row[col] ?? "").trim());
+  const money = (row: unknown[], col: number) => Number(cell(row, col).replace(/[^0-9.-]/g, "")) || 0;
 
   const out: MappedItem[] = [];
   for (const row of rows.slice(0, MAX_INPUT_ROWS)) {
@@ -96,14 +130,27 @@ export function applyMapping(rows: unknown[][], mapping: Record<number, TargetFi
     const qtyRaw = Math.floor(Number(cell(row, quantityCol)));
     const qty = Number.isFinite(qtyRaw) && qtyRaw > 0 ? Math.min(qtyRaw, MAX_QTY_PER_ROW) : 1;
 
-    const valueRaw = cell(row, valueCol).replace(/[^0-9.-]/g, "");
-    const estValue = Number(valueRaw) || 0;
+    const brand = cell(row, brandCol);
     const category = cell(row, categoryCol) || "Other";
     const condition = cell(row, conditionCol) || "Good";
+    const upc = cell(row, upcCol);
+    const itemNumber = cell(row, itemNumberCol);
+    const estValue = money(row, valueCol);
+    const retailValue = money(row, retailCol);
     const note = cell(row, noteCol);
 
     for (let i = 0; i < qty && out.length < MAX_ITEMS; i++) {
-      out.push({ name, category, condition, est_value: estValue, note });
+      out.push({
+        name,
+        brand,
+        category,
+        condition,
+        upc,
+        item_number: itemNumber,
+        est_value: estValue,
+        retail_value: retailValue,
+        note,
+      });
     }
     if (out.length >= MAX_ITEMS) break;
   }

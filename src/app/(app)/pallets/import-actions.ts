@@ -30,9 +30,13 @@ export async function submitMappedItems(palletId: string, items: MappedItem[]): 
     .map((i) => ({
       pallet_id: palletId,
       name: i.name.trim().slice(0, 500),
+      brand: (i.brand || "").toString().trim().slice(0, 200),
       category: (i.category || "Other").toString().trim().slice(0, 200) || "Other",
       condition: (i.condition || "Good").toString().trim().slice(0, 100) || "Good",
+      upc: (i.upc || "").toString().trim().slice(0, 100),
+      item_number: (i.item_number || "").toString().trim().slice(0, 100),
       est_value: Number.isFinite(Number(i.est_value)) ? Math.max(0, Number(i.est_value)) : 0,
+      retail_value: Number.isFinite(Number(i.retail_value)) ? Math.max(0, Number(i.retail_value)) : 0,
       note: (i.note || "").toString().trim().slice(0, 1000),
     }));
 

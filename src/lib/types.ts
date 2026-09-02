@@ -14,9 +14,13 @@ export type Item = {
   user_id: string;
   pallet_id: string;
   name: string;
+  brand: string;
   category: string;
   condition: string;
+  upc: string;
+  item_number: string;
   est_value: number;
+  retail_value: number;
   note: string;
   status: "in_stock" | "sold";
   created_at: string;

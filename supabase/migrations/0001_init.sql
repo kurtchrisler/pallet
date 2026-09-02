@@ -175,3 +175,23 @@ drop trigger if exists on_sale_delete on public.sales;
 create trigger on_sale_delete
   after delete on public.sales
   for each row execute procedure public.mark_item_in_stock();
+
+-- ---------------------------------------------------------------------------
+-- Table-level grants. Row-level security (above) controls which ROWS a
+-- role can touch; Postgres separately requires these GRANTs before a role
+-- can touch the table at all, even one it otherwise bypasses RLS on
+-- (service_role) — without them every query fails with "permission denied
+-- for table ...", 42501, regardless of how correct the RLS policies are.
+-- ---------------------------------------------------------------------------
+grant usage on schema public to authenticated, service_role;
+
+grant select, update on public.profiles to authenticated;
+grant select, insert, update on public.profiles to service_role;
+
+grant select on public.subscriptions to authenticated;
+grant select, insert, update on public.subscriptions to service_role;
+
+grant select, insert, update, delete on public.pallets to authenticated, service_role;
+grant select, insert, update, delete on public.items to authenticated, service_role;
+grant select, insert, update, delete on public.sales to authenticated, service_role;
+grant select, insert, update, delete on public.expenses to authenticated, service_role;

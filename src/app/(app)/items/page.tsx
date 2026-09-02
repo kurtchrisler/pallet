@@ -9,10 +9,18 @@ import { AutoSubmitSelect } from "@/components/AutoSubmitSelect";
 export default async function ItemsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ edit?: string; error?: string; status?: string; pallet?: string; q?: string }>;
+  searchParams: Promise<{
+    edit?: string;
+    error?: string;
+    status?: string;
+    pallet?: string;
+    q?: string;
+    imported?: string;
+    skipped?: string;
+  }>;
 }) {
   const { supabase } = await getAppContext();
-  const { edit, error, status = "all", pallet = "all", q = "" } = await searchParams;
+  const { edit, error, status = "all", pallet = "all", q = "", imported, skipped } = await searchParams;
 
   const [{ data: pallets }, { data: items }] = await Promise.all([
     supabase.from("pallets").select("*").order("purchase_date", { ascending: false }),
@@ -54,6 +62,12 @@ export default async function ItemsPage({
       <p className="text-sm text-ink-soft mb-4">Every item, broken out of every pallet.</p>
 
       {error && <div className="mb-4 text-sm bg-alert-soft text-alert rounded px-3 py-2">{error}</div>}
+      {imported && (
+        <div className="mb-4 text-sm bg-good-soft text-good rounded px-3 py-2">
+          Imported {imported} item{imported === "1" ? "" : "s"} from your spreadsheet.
+          {skipped && ` Skipped ${skipped} row${skipped === "1" ? "" : "s"} with no item name.`}
+        </div>
+      )}
 
       <Card>
         <form action={submitItem} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">

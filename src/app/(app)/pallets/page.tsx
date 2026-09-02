@@ -1,5 +1,6 @@
 import { getAppContext } from "@/lib/app-context";
 import { submitPallet, deletePallet } from "./actions";
+import { importItems } from "./import-actions";
 import { buildIndex, fmtMoney, fmtDate, palletCostBasis } from "@/lib/calc";
 import type { Item, Pallet, Sale } from "@/lib/types";
 import { Card, EmptyState, Field, SectionTitle, TableWrap } from "@/components/ui";
@@ -8,10 +9,10 @@ import { ConfirmDeleteButton } from "@/components/ConfirmDeleteButton";
 export default async function PalletsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ edit?: string; error?: string }>;
+  searchParams: Promise<{ edit?: string; import?: string; error?: string }>;
 }) {
   const { supabase, user } = await getAppContext();
-  const { edit, error } = await searchParams;
+  const { edit, import: importPalletId, error } = await searchParams;
 
   const [{ data: pallets }, { data: items }, { data: sales }] = await Promise.all([
     supabase.from("pallets").select("*").order("purchase_date", { ascending: false }),
@@ -30,6 +31,7 @@ export default async function PalletsPage({
   });
 
   const editing = edit ? palletRows.find((p) => p.id === edit) : null;
+  const importing = importPalletId ? palletRows.find((p) => p.id === importPalletId) : null;
   const sources = Array.from(new Set(palletRows.map((p) => p.source)));
 
   return (
@@ -75,6 +77,39 @@ export default async function PalletsPage({
         </form>
       </Card>
 
+      {importing && (
+        <Card>
+          <h3 className="text-sm font-display font-semibold mb-1">
+            Import items into &quot;{importing.source}&quot;
+          </h3>
+          <p className="text-xs text-ink-soft mb-3">
+            Upload a spreadsheet (.csv, .xlsx) with the pallet&apos;s contents — one row per item, with columns
+            like Item Name, Category, Condition, Quantity, and Estimated Value. Each row becomes an item in the
+            Inventory tab; a Quantity greater than 1 creates that many copies.{" "}
+            <a href="/item-import-template.csv" className="text-accent hover:underline">
+              Download a template
+            </a>
+            .
+          </p>
+          <form action={importItems} encType="multipart/form-data" className="flex flex-wrap items-center gap-3">
+            <input type="hidden" name="pallet_id" value={importing.id} />
+            <input
+              type="file"
+              name="file"
+              accept=".csv,.xlsx,.xls"
+              required
+              className="text-sm file:mr-3 file:rounded file:border file:border-line-strong file:bg-surface file:px-3 file:py-1.5 file:text-sm"
+            />
+            <button type="submit" className="bg-accent text-accent-ink font-semibold rounded px-4 py-2 text-sm hover:brightness-[1.06]">
+              Import items
+            </button>
+            <a href="/pallets" className="text-ink-soft text-sm px-3 py-2">
+              Cancel
+            </a>
+          </form>
+        </Card>
+      )}
+
       <SectionTitle title="All pallets" hint={`${palletRows.length} total`} />
       {palletRows.length ? (
         <TableWrap>
@@ -113,6 +148,9 @@ export default async function PalletsPage({
                     </td>
                     <td className="px-2.5 py-2">
                       <div className="flex gap-1.5">
+                        <a href={`/pallets?import=${p.id}`} className="rounded border border-line-strong px-2.5 py-1.5 text-[0.78rem]">
+                          Import
+                        </a>
                         <a href={`/pallets?edit=${p.id}`} className="rounded border border-line-strong px-2.5 py-1.5 text-[0.78rem]">
                           Edit
                         </a>

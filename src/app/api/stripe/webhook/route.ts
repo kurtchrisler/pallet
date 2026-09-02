@@ -8,14 +8,17 @@ export const runtime = "nodejs";
 async function upsertFromSubscription(subscription: Stripe.Subscription) {
   const userId = subscription.metadata?.supabase_user_id;
   if (!userId) {
-    console.error("Stripe subscription webhook missing supabase_user_id metadata", subscription.id);
-    return;
+    // Fixed: this used to log and silently return "success" to Stripe,
+    // which is exactly the kind of failure that looks fine in the Stripe
+    // dashboard while nothing actually happens in the database. Throwing
+    // here makes the outer handler return a real error status instead.
+    throw new Error(`Stripe subscription ${subscription.id} has no supabase_user_id metadata`);
   }
 
   const item = subscription.items.data[0];
   const admin = createAdminClient();
 
-  await admin.from("subscriptions").upsert(
+  const { error } = await admin.from("subscriptions").upsert(
     {
       user_id: userId,
       stripe_customer_id: typeof subscription.customer === "string" ? subscription.customer : subscription.customer.id,
@@ -28,6 +31,18 @@ async function upsertFromSubscription(subscription: Stripe.Subscription) {
     },
     { onConflict: "user_id" }
   );
+
+  if (error) {
+    // Fixed: the Supabase client returns errors in the result object rather
+    // than throwing — ignoring `error` here was the actual bug. Now it's
+    // logged with full detail and surfaced as a real failure.
+    console.error("Supabase upsert into subscriptions failed", {
+      userId,
+      subscriptionId: subscription.id,
+      error,
+    });
+    throw new Error(`Supabase upsert failed: ${error.message}`);
+  }
 }
 
 export async function POST(request: Request) {

@@ -1,10 +1,10 @@
 import { getAppContext } from "@/lib/app-context";
 import { submitPallet, deletePallet } from "./actions";
-import { importItems } from "./import-actions";
 import { buildIndex, fmtMoney, fmtDate, palletCostBasis } from "@/lib/calc";
 import type { Item, Pallet, Sale } from "@/lib/types";
 import { Card, EmptyState, Field, SectionTitle, TableWrap } from "@/components/ui";
 import { ConfirmDeleteButton } from "@/components/ConfirmDeleteButton";
+import { ImportItemsForm } from "@/components/ImportItemsForm";
 
 export default async function PalletsPage({
   searchParams,
@@ -79,34 +79,13 @@ export default async function PalletsPage({
 
       {importing && (
         <Card>
-          <h3 className="text-sm font-display font-semibold mb-1">
-            Import items into &quot;{importing.source}&quot;
-          </h3>
-          <p className="text-xs text-ink-soft mb-3">
-            Upload a spreadsheet (.csv, .xlsx) with the pallet&apos;s contents — one row per item, with columns
-            like Item Name, Category, Condition, Quantity, and Estimated Value. Each row becomes an item in the
-            Inventory tab; a Quantity greater than 1 creates that many copies.{" "}
-            <a href="/item-import-template.csv" className="text-accent hover:underline">
-              Download a template
-            </a>
-            .
-          </p>
-          <form action={importItems} encType="multipart/form-data" className="flex flex-wrap items-center gap-3">
-            <input type="hidden" name="pallet_id" value={importing.id} />
-            <input
-              type="file"
-              name="file"
-              accept=".csv,.xlsx,.xls"
-              required
-              className="text-sm file:mr-3 file:rounded file:border file:border-line-strong file:bg-surface file:px-3 file:py-1.5 file:text-sm"
-            />
-            <button type="submit" className="bg-accent text-accent-ink font-semibold rounded px-4 py-2 text-sm hover:brightness-[1.06]">
-              Import items
-            </button>
-            <a href="/pallets" className="text-ink-soft text-sm px-3 py-2">
+          <div className="flex items-baseline justify-between gap-2 mb-1">
+            <h3 className="text-sm font-display font-semibold">Import items into &quot;{importing.source}&quot;</h3>
+            <a href="/pallets" className="text-ink-soft text-xs px-1">
               Cancel
             </a>
-          </form>
+          </div>
+          <ImportItemsForm palletId={importing.id} palletSource={importing.source} />
         </Card>
       )}
 

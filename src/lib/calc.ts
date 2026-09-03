@@ -7,11 +7,16 @@ export function palletCostBasis(p: Pick<Pallet, "cost" | "freight">) {
   return Number(p.cost || 0) + Number(p.freight || 0);
 }
 
+/** A pallet's cost (+ freight) is split across its items in proportion to
+ * each item's Retail Value — an item worth 10% of the pallet's total
+ * retail value carries 10% of the pallet's cost. If nothing in the pallet
+ * has a retail value set yet, costs split evenly instead of collapsing to
+ * zero. */
 export function allocatedCost(item: Item, pallet: Pallet | undefined, siblings: Item[]) {
   if (!pallet) return 0;
-  const totalEst = siblings.reduce((s, i) => s + Number(i.est_value || 0), 0);
+  const totalRetail = siblings.reduce((s, i) => s + Number(i.retail_value || 0), 0);
   const basis = palletCostBasis(pallet);
-  if (totalEst > 0) return basis * (Number(item.est_value || 0) / totalEst);
+  if (totalRetail > 0) return basis * (Number(item.retail_value || 0) / totalRetail);
   return siblings.length ? basis / siblings.length : 0;
 }
 

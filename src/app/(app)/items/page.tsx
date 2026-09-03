@@ -110,11 +110,11 @@ export default async function ItemsPage({
           <Field label="UPC">
             <input name="upc" defaultValue={editing?.upc ?? ""} placeholder="Optional" />
           </Field>
-          <Field label="Est. resale value ($)">
-            <input type="number" step="0.01" min="0" name="est_value" defaultValue={editing?.est_value ?? ""} placeholder="0.00" />
-          </Field>
           <Field label="Retail value ($)">
             <input type="number" step="0.01" min="0" name="retail_value" defaultValue={editing?.retail_value ?? ""} placeholder="0.00" />
+          </Field>
+          <Field label="Est. resale value ($)">
+            <input type="number" step="0.01" min="0" name="est_value" defaultValue={editing?.est_value ?? ""} placeholder="0.00" />
           </Field>
           <Field label="Note">
             <input name="note" defaultValue={editing?.note ?? ""} placeholder="Optional" />
@@ -128,7 +128,7 @@ export default async function ItemsPage({
                 Cancel
               </a>
             )}
-            <span className="text-xs text-ink-faint">Cost is split across a pallet&apos;s items by estimated value.</span>
+            <span className="text-xs text-ink-faint">Cost is split across a pallet&apos;s items by retail value.</span>
           </div>
         </form>
       </Card>

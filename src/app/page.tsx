@@ -3,7 +3,7 @@ import Link from "next/link";
 const FEATURES = [
   {
     title: "Break pallets into real inventory",
-    body: "Log what you paid for a pallet, then split it into the individual items inside — cost allocates automatically by estimated value, so every item has a true cost basis instead of a guess.",
+    body: "Log what you paid for a pallet, then split it into the individual items inside — cost allocates automatically by retail value, so every item has a true cost basis instead of a guess.",
   },
   {
     title: "Know your profit, not just your revenue",

@@ -23,6 +23,7 @@ export type Item = {
   retail_value: number;
   note: string;
   status: "in_stock" | "sold";
+  listed: boolean;
   created_at: string;
 };
 

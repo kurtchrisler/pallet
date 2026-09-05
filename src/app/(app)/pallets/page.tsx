@@ -135,7 +135,13 @@ export default async function PalletsPage({
                         </a>
                         <form action={deletePallet}>
                           <input type="hidden" name="id" value={p.id} />
-                          <ConfirmDeleteButton confirmText="Delete this pallet? This can't be undone." />
+                          <ConfirmDeleteButton
+                            confirmText={
+                              its.length
+                                ? `Delete this pallet and all ${its.length} item${its.length === 1 ? "" : "s"} in it, including any sale records? This can't be undone.`
+                                : "Delete this pallet? This can't be undone."
+                            }
+                          />
                         </form>
                       </div>
                     </td>

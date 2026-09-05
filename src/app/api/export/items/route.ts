@@ -37,6 +37,7 @@ export async function GET() {
       "Retail Value",
       "Allocated Cost",
       "Status",
+      "Listed",
       "Sale Price",
       "Profit",
     ],
@@ -59,6 +60,7 @@ export async function GET() {
       Number(item.retail_value).toFixed(2),
       cost.toFixed(2),
       item.status === "sold" ? "Sold" : "In Stock",
+      item.listed ? "Listed" : "Not listed",
       sale ? Number(sale.price).toFixed(2) : "",
       sale ? (Number(sale.price) - cost).toFixed(2) : "",
     ]);

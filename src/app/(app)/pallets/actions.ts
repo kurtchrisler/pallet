@@ -28,17 +28,18 @@ export async function submitPallet(formData: FormData) {
   redirect("/pallets");
 }
 
+/** Deleting a pallet cascades at the database level to every item in it,
+ * and from there to any sale recorded against those items (items.pallet_id
+ * and sales.item_id are both `on delete cascade`) — so this one delete
+ * removes the pallet, its items, and their sales in a single transaction. */
 export async function deletePallet(formData: FormData) {
   const { supabase } = await getAppContext();
   const id = String(formData.get("id") || "");
 
-  const { count } = await supabase.from("items").select("id", { count: "exact", head: true }).eq("pallet_id", id);
-  if (count && count > 0) {
-    redirect("/pallets?error=" + encodeURIComponent("Delete or reassign this pallet's items first."));
-  }
-
   await supabase.from("pallets").delete().eq("id", id);
   revalidatePath("/pallets");
+  revalidatePath("/items");
   revalidatePath("/dashboard");
+  revalidatePath("/sales");
   redirect("/pallets");
 }

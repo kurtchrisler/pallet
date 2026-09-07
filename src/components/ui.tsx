@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 
 export function Card({ children, className = "" }: { children: ReactNode; className?: string }) {
   return (
-    <div className={`bg-surface border border-line rounded-lg p-4 ${className}`}>{children}</div>
+    <div className={`bg-surface border border-line rounded-xl shadow-sm p-4 ${className}`}>{children}</div>
   );
 }
 
@@ -16,8 +16,8 @@ export function EmptyState({ children }: { children: ReactNode }) {
 
 export function SectionTitle({ title, hint }: { title: string; hint?: string }) {
   return (
-    <div className="flex items-baseline justify-between gap-2 mt-7 mb-2.5">
-      <h3 className="text-[0.95rem] font-display font-semibold">{title}</h3>
+    <div className="flex items-baseline justify-between gap-2 mt-8 mb-3">
+      <h3 className="text-[0.95rem] font-display font-semibold tracking-tight">{title}</h3>
       {hint && <span className="text-xs text-ink-faint">{hint}</span>}
     </div>
   );
@@ -34,12 +34,12 @@ export function KpiTile({
   hint?: string;
   tone?: "default" | "good" | "alert";
 }) {
-  const border =
-    tone === "good" ? "border-t-good" : tone === "alert" ? "border-t-alert" : "border-t-accent";
+  const accent = tone === "good" ? "bg-good" : tone === "alert" ? "bg-alert" : "bg-accent";
   return (
-    <div className={`bg-surface border border-line border-t-[3px] ${border} rounded-md px-3.5 py-3`}>
-      <div className="text-[0.68rem] uppercase tracking-wider text-ink-soft">{label}</div>
-      <div className="mono text-[1.35rem] font-semibold mt-0.5">{value}</div>
+    <div className="relative bg-surface border border-line rounded-xl shadow-sm px-4 py-3.5 overflow-hidden">
+      <span className={`absolute inset-x-0 top-0 h-[3px] ${accent}`} />
+      <div className="text-[0.7rem] font-medium text-ink-soft">{label}</div>
+      <div className="mono text-[1.4rem] font-semibold mt-1 tracking-tight">{value}</div>
       {hint && <div className="text-xs text-ink-faint mt-0.5">{hint}</div>}
     </div>
   );
@@ -54,7 +54,7 @@ export function Pill({ tone, children }: { tone: "stock" | "sold" | "age30" | "a
     age90: "bg-alert text-white",
   };
   return (
-    <span className={`mono inline-flex items-center gap-1 text-[0.68rem] uppercase tracking-wider px-2.5 py-1 rounded-full ${styles[tone]}`}>
+    <span className={`mono inline-flex items-center gap-1 text-[0.68rem] font-medium px-2.5 py-1 rounded-full ${styles[tone]}`}>
       {children}
     </span>
   );
@@ -82,12 +82,13 @@ export function Button({
   className?: string;
   [key: string]: unknown;
 }) {
-  const base = "rounded font-body border transition-colors inline-flex items-center justify-center gap-1.5";
+  const base =
+    "rounded-lg font-body font-medium border transition-colors inline-flex items-center justify-center gap-1.5";
   const variants: Record<string, string> = {
-    default: "bg-surface border-line-strong text-ink hover:border-ink-soft",
-    primary: "bg-accent border-accent text-accent-ink font-semibold hover:brightness-[1.06]",
+    default: "bg-surface border-line-strong text-ink shadow-sm hover:border-ink-soft",
+    primary: "bg-accent border-accent text-accent-ink font-semibold shadow-sm hover:brightness-[1.08]",
     ghost: "bg-transparent border-transparent text-ink-soft hover:text-ink",
-    danger: "bg-transparent border-alert text-alert",
+    danger: "bg-transparent border-alert text-alert hover:bg-alert-soft",
   };
   const sizes: Record<string, string> = {
     default: "px-4 py-2 text-sm",
@@ -110,7 +111,7 @@ export function Field({
   children: ReactNode;
 }) {
   return (
-    <label className={`flex flex-col gap-1 text-[0.78rem] uppercase tracking-wide text-ink-soft ${wide ? "col-span-full" : ""}`}>
+    <label className={`flex flex-col gap-1.5 text-[0.8rem] font-medium text-ink-soft ${wide ? "col-span-full" : ""}`}>
       <span>{label}</span>
       {children}
     </label>
@@ -118,5 +119,5 @@ export function Field({
 }
 
 export function TableWrap({ children }: { children: ReactNode }) {
-  return <div className="overflow-x-auto border border-line rounded-lg">{children}</div>;
+  return <div className="overflow-x-auto border border-line rounded-xl shadow-sm">{children}</div>;
 }

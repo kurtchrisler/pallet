@@ -40,7 +40,7 @@ export default async function SalesPage({
       <h2 className="text-[1.05rem] font-display font-semibold">Sales</h2>
       <p className="text-sm text-ink-soft mb-4">What sold, to whom, and where.</p>
 
-      {error && <div className="mb-4 text-sm bg-alert-soft text-alert rounded px-3 py-2">{error}</div>}
+      {error && <div className="mb-4 text-sm bg-alert-soft text-alert rounded-lg px-3 py-2">{error}</div>}
 
       <Card>
         {!editing && !available.length ? (
@@ -95,7 +95,7 @@ export default async function SalesPage({
               <input name="note" defaultValue={editing?.note ?? ""} placeholder="Optional" />
             </Field>
             <div className="col-span-full flex gap-2 items-center mt-1">
-              <button type="submit" className="bg-accent text-accent-ink font-semibold rounded px-4 py-2 text-sm hover:brightness-[1.06]">
+              <button type="submit" className="bg-accent text-accent-ink font-semibold rounded-lg px-4 py-2 text-sm shadow-sm hover:brightness-[1.08]">
                 {editing ? "Save changes" : "Log sale"}
               </button>
               {editing && (
@@ -113,7 +113,7 @@ export default async function SalesPage({
         <TableWrap>
           <table className="w-full text-sm border-collapse min-w-[640px]">
             <thead>
-              <tr className="bg-surface-2 text-left text-[0.7rem] uppercase tracking-wide text-ink-soft">
+              <tr className="bg-surface-2 text-left text-[0.7rem] font-medium text-ink-soft">
                 <th className="px-2.5 py-2">Date</th>
                 <th className="px-2.5 py-2">Item</th>
                 <th className="px-2.5 py-2">Channel</th>
@@ -140,7 +140,7 @@ export default async function SalesPage({
                     <td className={`px-2.5 py-2 text-right mono ${profit >= 0 ? "text-good" : "text-alert"}`}>{fmtMoney(profit)}</td>
                     <td className="px-2.5 py-2">
                       <div className="flex gap-1.5">
-                        <a href={`/sales?edit=${s.id}`} className="rounded border border-line-strong px-2.5 py-1.5 text-[0.78rem]">
+                        <a href={`/sales?edit=${s.id}`} className="rounded-lg border border-line-strong px-2.5 py-1.5 text-[0.78rem] shadow-sm hover:border-ink-soft">
                           Edit
                         </a>
                         <form action={deleteSale}>

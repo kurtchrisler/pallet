@@ -24,10 +24,10 @@ export default function LandingPage() {
     <div className="min-h-screen bg-paper">
       <header className="max-w-[1080px] mx-auto px-4 py-5 flex items-center justify-between">
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 bg-accent text-accent-ink rounded flex items-center justify-center font-display font-bold text-sm">
+          <div className="w-8 h-8 bg-accent text-accent-ink rounded-lg flex items-center justify-center font-display font-bold text-sm">
             PL
           </div>
-          <span className="font-display font-semibold text-lg">Pallet Ledger</span>
+          <span className="font-display font-semibold text-lg tracking-tight">Pallet Ledger</span>
         </div>
         <nav className="flex items-center gap-5 text-sm">
           <Link href="/pricing" className="text-ink-soft hover:text-ink">
@@ -36,35 +36,56 @@ export default function LandingPage() {
           <Link href="/login" className="text-ink-soft hover:text-ink">
             Log in
           </Link>
-          <Link href="/signup" className="bg-accent text-accent-ink font-semibold rounded px-4 py-2 hover:brightness-[1.06]">
+          <Link
+            href="/signup"
+            className="bg-accent text-accent-ink font-semibold rounded-lg px-4 py-2 shadow-sm hover:brightness-[1.08]"
+          >
             Start free trial
           </Link>
         </nav>
       </header>
 
-      <section className="max-w-[720px] mx-auto px-4 pt-10 pb-14 text-center">
-        <h1 className="text-3xl sm:text-4xl font-display font-semibold leading-tight text-balance">
-          Inventory and profit tracking, built for pallet resellers
-        </h1>
-        <p className="text-ink-soft mt-4 text-lg text-balance">
-          Track what you pay for pallets, what&apos;s inside them, and what you actually make — without spreadsheets
-          that fall apart the moment you&apos;re moving fast.
-        </p>
-        <div className="flex items-center justify-center gap-3 mt-7">
-          <Link href="/signup" className="bg-accent text-accent-ink font-semibold rounded px-5 py-3 text-sm hover:brightness-[1.06]">
-            Start free trial
-          </Link>
-          <Link href="/pricing" className="border border-line-strong rounded px-5 py-3 text-sm">
-            See pricing
-          </Link>
+      <section className="relative overflow-hidden">
+        <div
+          className="pointer-events-none absolute inset-x-0 -top-24 h-[420px]"
+          style={{
+            background:
+              "radial-gradient(ellipse 60% 100% at 50% 0%, var(--accent-soft), transparent 70%)",
+          }}
+        />
+        <div className="relative max-w-[720px] mx-auto px-4 pt-14 pb-16 text-center">
+          <span className="inline-flex items-center gap-1.5 bg-accent-soft text-accent text-xs font-medium px-3 py-1 rounded-full mb-5">
+            Built for pallet &amp; liquidation resellers
+          </span>
+          <h1 className="text-4xl sm:text-5xl font-display font-semibold leading-[1.1] tracking-tight text-balance">
+            Inventory and profit tracking, built for pallet resellers
+          </h1>
+          <p className="text-ink-soft mt-5 text-lg text-balance max-w-[560px] mx-auto">
+            Track what you pay for pallets, what&apos;s inside them, and what you actually make — without spreadsheets
+            that fall apart the moment you&apos;re moving fast.
+          </p>
+          <div className="flex items-center justify-center gap-3 mt-8">
+            <Link
+              href="/signup"
+              className="bg-accent text-accent-ink font-semibold rounded-lg px-5 py-3 text-sm shadow-sm hover:brightness-[1.08]"
+            >
+              Start free trial
+            </Link>
+            <Link
+              href="/pricing"
+              className="bg-surface border border-line-strong rounded-lg px-5 py-3 text-sm shadow-sm hover:border-ink-soft"
+            >
+              See pricing
+            </Link>
+          </div>
         </div>
       </section>
 
       <section className="max-w-[1080px] mx-auto px-4 pb-16">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {FEATURES.map((f) => (
-            <div key={f.title} className="bg-surface border border-line rounded-lg p-5">
-              <h3 className="font-display font-semibold text-base mb-1.5">{f.title}</h3>
+            <div key={f.title} className="bg-surface border border-line rounded-xl shadow-sm p-5">
+              <h3 className="font-display font-semibold text-base mb-1.5 tracking-tight">{f.title}</h3>
               <p className="text-sm text-ink-soft">{f.body}</p>
             </div>
           ))}
@@ -72,10 +93,13 @@ export default function LandingPage() {
       </section>
 
       <section className="max-w-[720px] mx-auto px-4 pb-20 text-center">
-        <div className="bg-surface border border-line rounded-lg p-8">
-          <h2 className="text-xl font-display font-semibold mb-2">Ready to see your real numbers?</h2>
+        <div className="bg-surface border border-line rounded-xl shadow-sm p-8">
+          <h2 className="text-xl font-display font-semibold mb-2 tracking-tight">Ready to see your real numbers?</h2>
           <p className="text-sm text-ink-soft mb-5">Start your free trial — no credit card required to sign up.</p>
-          <Link href="/signup" className="bg-accent text-accent-ink font-semibold rounded px-5 py-3 text-sm inline-block hover:brightness-[1.06]">
+          <Link
+            href="/signup"
+            className="bg-accent text-accent-ink font-semibold rounded-lg px-5 py-3 text-sm shadow-sm inline-block hover:brightness-[1.08]"
+          >
             Create your account
           </Link>
         </div>

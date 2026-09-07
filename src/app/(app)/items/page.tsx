@@ -78,15 +78,15 @@ export default async function ItemsPage({
       <h2 className="text-[1.05rem] font-display font-semibold">Inventory</h2>
       <p className="text-sm text-ink-soft mb-4">Every item, broken out of every pallet.</p>
 
-      {error && <div className="mb-4 text-sm bg-alert-soft text-alert rounded px-3 py-2">{error}</div>}
+      {error && <div className="mb-4 text-sm bg-alert-soft text-alert rounded-lg px-3 py-2">{error}</div>}
       {imported && (
-        <div className="mb-4 text-sm bg-good-soft text-good rounded px-3 py-2">
+        <div className="mb-4 text-sm bg-good-soft text-good rounded-lg px-3 py-2">
           Imported {imported} item{imported === "1" ? "" : "s"} from your spreadsheet.
           {skipped && ` Skipped ${skipped} row${skipped === "1" ? "" : "s"} with no item name.`}
         </div>
       )}
       {deleted && (
-        <div className="mb-4 text-sm bg-good-soft text-good rounded px-3 py-2">
+        <div className="mb-4 text-sm bg-good-soft text-good rounded-lg px-3 py-2">
           Deleted {deleted} item{deleted === "1" ? "" : "s"}.
           {deleteSkipped &&
             ` Skipped ${deleteSkipped} item${deleteSkipped === "1" ? "" : "s"} with a sale record — delete the sale first to remove ${deleteSkipped === "1" ? "it" : "those"}.`}
@@ -148,7 +148,7 @@ export default async function ItemsPage({
             Listed for sale
           </label>
           <div className="col-span-full flex flex-wrap gap-3 items-center mt-1">
-            <button type="submit" className="bg-accent text-accent-ink font-semibold rounded px-4 py-2 text-sm hover:brightness-[1.06]">
+            <button type="submit" className="bg-accent text-accent-ink font-semibold rounded-lg px-4 py-2 text-sm shadow-sm hover:brightness-[1.08]">
               {editing ? "Save changes" : "Add item"}
             </button>
             {editing && (
@@ -189,7 +189,7 @@ export default async function ItemsPage({
         <Field label="Search">
           <input name="q" defaultValue={q} placeholder="Item name…" />
         </Field>
-        <button type="submit" className="self-end rounded border border-line-strong px-3 py-2 text-sm h-[38px]">
+        <button type="submit" className="self-end rounded-lg border border-line-strong px-3 py-2 text-sm shadow-sm hover:border-ink-soft h-[38px]">
           Filter
         </button>
       </form>
@@ -201,7 +201,7 @@ export default async function ItemsPage({
           <TableWrap>
             <table className="w-full text-sm border-collapse min-w-[760px]">
               <thead>
-                <tr className="bg-surface-2 text-left text-[0.7rem] uppercase tracking-wide text-ink-soft">
+                <tr className="bg-surface-2 text-left text-[0.7rem] font-medium text-ink-soft">
                   <th className="px-2.5 py-2 w-8" />
                   <th className="px-2.5 py-2">Item</th>
                   <th className="px-2.5 py-2">Pallet</th>
@@ -261,7 +261,7 @@ export default async function ItemsPage({
                           type="submit"
                           formAction={toggleListed.bind(null, i.id, !i.listed)}
                           formNoValidate
-                          className={`mono inline-flex items-center gap-1 text-[0.68rem] uppercase tracking-wider px-2.5 py-1 rounded-full ${
+                          className={`mono inline-flex items-center gap-1 text-[0.68rem] font-medium px-2.5 py-1 rounded-full ${
                             i.listed ? "bg-good-soft text-good" : "bg-surface-2 text-ink-soft border border-line-strong"
                           }`}
                         >
@@ -271,11 +271,11 @@ export default async function ItemsPage({
                       <td className="px-2.5 py-2">
                         <div className="flex gap-1.5">
                           {i.status !== "sold" && (
-                            <a href={`/sales?item=${i.id}`} className="rounded border border-line-strong px-2.5 py-1.5 text-[0.78rem]">
+                            <a href={`/sales?item=${i.id}`} className="rounded-lg border border-line-strong px-2.5 py-1.5 text-[0.78rem] shadow-sm hover:border-ink-soft">
                               Sell
                             </a>
                           )}
-                          <a href={`/items?edit=${i.id}`} className="rounded border border-line-strong px-2.5 py-1.5 text-[0.78rem]">
+                          <a href={`/items?edit=${i.id}`} className="rounded-lg border border-line-strong px-2.5 py-1.5 text-[0.78rem] shadow-sm hover:border-ink-soft">
                             Edit
                           </a>
                           <ConfirmDeleteButton formAction={deleteItem.bind(null, i.id)} confirmText="Delete this item? This can't be undone." />

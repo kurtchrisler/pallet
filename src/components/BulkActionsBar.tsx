@@ -66,7 +66,7 @@ export function BulkActionsBar({
             e.preventDefault();
           }
         }}
-        className="rounded font-body border border-alert text-alert px-3 py-1.5 text-[0.78rem] disabled:opacity-40 disabled:cursor-not-allowed"
+        className="rounded-lg font-body border border-alert text-alert px-3 py-1.5 text-[0.78rem] hover:bg-alert-soft disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent"
       >
         Delete selected
       </button>

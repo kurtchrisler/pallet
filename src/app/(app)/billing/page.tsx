@@ -29,21 +29,21 @@ export default async function BillingPage({
       <h2 className="text-[1.05rem] font-display font-semibold">Billing</h2>
       <p className="text-sm text-ink-soft mb-4">Manage your Pallet Ledger subscription.</p>
 
-      {error && <div className="mb-4 text-sm bg-alert-soft text-alert rounded px-3 py-2">{error}</div>}
+      {error && <div className="mb-4 text-sm bg-alert-soft text-alert rounded-lg px-3 py-2">{error}</div>}
       {checkout === "cancelled" && (
-        <div className="mb-4 text-sm bg-surface-2 text-ink-soft rounded px-3 py-2">Checkout was cancelled — no charge was made.</div>
+        <div className="mb-4 text-sm bg-surface-2 text-ink-soft rounded-lg px-3 py-2">Checkout was cancelled — no charge was made.</div>
       )}
 
       <Card>
         <div className="flex items-center justify-between mb-1">
-          <span className="text-xs uppercase tracking-wide text-ink-soft">Status</span>
+          <span className="text-xs font-medium text-ink-soft">Status</span>
           <span className={`text-sm font-semibold ${isActive ? "text-good" : "text-alert"}`}>
             {STATUS_LABEL[status] ?? status}
           </span>
         </div>
         {subscription?.current_period_end && (
           <div className="flex items-center justify-between mb-4">
-            <span className="text-xs uppercase tracking-wide text-ink-soft">
+            <span className="text-xs font-medium text-ink-soft">
               {status === "trialing" ? "Trial ends" : "Renews"}
             </span>
             <span className="text-sm mono">{fmtDate(subscription.current_period_end.slice(0, 10))}</span>
@@ -52,13 +52,13 @@ export default async function BillingPage({
 
         {isActive ? (
           <form action="/api/stripe/portal" method="POST">
-            <button type="submit" className="w-full bg-accent text-accent-ink font-semibold rounded px-4 py-2.5 text-sm hover:brightness-[1.06]">
+            <button type="submit" className="w-full bg-accent text-accent-ink font-semibold rounded-lg px-4 py-2.5 text-sm shadow-sm hover:brightness-[1.08]">
               Manage billing
             </button>
           </form>
         ) : (
           <form action="/api/stripe/checkout" method="POST">
-            <button type="submit" className="w-full bg-accent text-accent-ink font-semibold rounded px-4 py-2.5 text-sm hover:brightness-[1.06]">
+            <button type="submit" className="w-full bg-accent text-accent-ink font-semibold rounded-lg px-4 py-2.5 text-sm shadow-sm hover:brightness-[1.08]">
               Subscribe
             </button>
           </form>

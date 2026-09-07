@@ -107,7 +107,7 @@ export function ImportItemsForm({ palletId, palletSource }: { palletId: string; 
             ref={fileInputRef}
             type="file"
             accept=".csv,.xlsx,.xls"
-            className="text-sm file:mr-3 file:rounded file:border file:border-line-strong file:bg-surface file:px-3 file:py-1.5 file:text-sm"
+            className="text-sm file:mr-3 file:rounded-lg file:border file:border-line-strong file:bg-surface file:px-3 file:py-1.5 file:text-sm"
             onChange={(e) => {
               const file = e.target.files?.[0];
               if (file) handleFile(file);
@@ -116,7 +116,7 @@ export function ImportItemsForm({ palletId, palletSource }: { palletId: string; 
         </>
       )}
 
-      {error && <div className="mt-3 text-sm bg-alert-soft text-alert rounded px-3 py-2">{error}</div>}
+      {error && <div className="mt-3 text-sm bg-alert-soft text-alert rounded-lg px-3 py-2">{error}</div>}
 
       {sheet && (
         <div className="mt-1">
@@ -128,7 +128,7 @@ export function ImportItemsForm({ palletId, palletSource }: { palletId: string; 
           <div className="overflow-x-auto border border-line rounded-lg mb-3">
             <table className="w-full text-sm border-collapse min-w-[560px]">
               <thead>
-                <tr className="bg-surface-2 text-left text-[0.7rem] uppercase tracking-wide text-ink-soft">
+                <tr className="bg-surface-2 text-left text-[0.7rem] font-medium text-ink-soft">
                   <th className="px-2.5 py-2">Column in your file</th>
                   <th className="px-2.5 py-2">Sample value</th>
                   <th className="px-2.5 py-2">Maps to</th>
@@ -175,7 +175,7 @@ export function ImportItemsForm({ palletId, palletSource }: { palletId: string; 
               type="button"
               disabled={submitting || !hasNameMapped}
               onClick={handleImport}
-              className="bg-accent text-accent-ink font-semibold rounded px-4 py-2 text-sm hover:brightness-[1.06] disabled:opacity-50 disabled:cursor-not-allowed"
+              className="bg-accent text-accent-ink font-semibold rounded-lg px-4 py-2 text-sm shadow-sm hover:brightness-[1.08] disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {submitting ? "Importing…" : `Import ${mappedCount} item${mappedCount === 1 ? "" : "s"}`}
             </button>

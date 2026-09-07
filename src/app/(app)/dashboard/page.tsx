@@ -49,7 +49,7 @@ export default async function DashboardPage() {
         <TableWrap>
           <table className="w-full text-sm border-collapse min-w-[560px]">
             <thead>
-              <tr className="bg-surface-2 text-left text-[0.7rem] uppercase tracking-wide text-ink-soft">
+              <tr className="bg-surface-2 text-left text-[0.7rem] font-medium text-ink-soft">
                 <th className="px-2.5 py-2">Item</th>
                 <th className="px-2.5 py-2">Pallet</th>
                 <th className="px-2.5 py-2">Category</th>
@@ -67,7 +67,7 @@ export default async function DashboardPage() {
                     <AgingBadge days={x.days} />
                   </td>
                   <td className="px-2.5 py-2">
-                    <a href={`/sales?item=${x.item.id}`} className="rounded border border-line-strong px-2.5 py-1.5 text-[0.78rem]">
+                    <a href={`/sales?item=${x.item.id}`} className="rounded-lg border border-line-strong px-2.5 py-1.5 text-[0.78rem] shadow-sm hover:border-ink-soft">
                       Log sale
                     </a>
                   </td>
@@ -85,7 +85,7 @@ export default async function DashboardPage() {
         <TableWrap>
           <table className="w-full text-sm border-collapse min-w-[560px]">
             <thead>
-              <tr className="bg-surface-2 text-left text-[0.7rem] uppercase tracking-wide text-ink-soft">
+              <tr className="bg-surface-2 text-left text-[0.7rem] font-medium text-ink-soft">
                 <th className="px-2.5 py-2">Source</th>
                 <th className="px-2.5 py-2 text-right">Pallets</th>
                 <th className="px-2.5 py-2 text-right">Spend</th>
@@ -115,7 +115,7 @@ export default async function DashboardPage() {
         <TableWrap>
           <table className="w-full text-sm border-collapse min-w-[560px]">
             <thead>
-              <tr className="bg-surface-2 text-left text-[0.7rem] uppercase tracking-wide text-ink-soft">
+              <tr className="bg-surface-2 text-left text-[0.7rem] font-medium text-ink-soft">
                 <th className="px-2.5 py-2">Month</th>
                 <th className="px-2.5 py-2 text-right">Revenue</th>
                 <th className="px-2.5 py-2 text-right">Allocated Cost</th>
@@ -144,10 +144,10 @@ export default async function DashboardPage() {
       )}
 
       <div className="flex flex-wrap gap-2 mt-5">
-        <a href="/api/export/sales" className="rounded border border-line-strong px-4 py-2 text-sm">
+        <a href="/api/export/sales" className="rounded-lg border border-line-strong px-4 py-2 text-sm shadow-sm hover:border-ink-soft">
           Export sales (CSV)
         </a>
-        <a href="/api/export/items" className="rounded border border-line-strong px-4 py-2 text-sm">
+        <a href="/api/export/items" className="rounded-lg border border-line-strong px-4 py-2 text-sm shadow-sm hover:border-ink-soft">
           Export inventory (CSV)
         </a>
       </div>

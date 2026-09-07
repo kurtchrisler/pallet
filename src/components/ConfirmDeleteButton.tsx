@@ -18,7 +18,7 @@ export function ConfirmDeleteButton({
       type="submit"
       formAction={formAction}
       formNoValidate
-      className="rounded font-body border border-alert text-alert px-2.5 py-1.5 text-[0.78rem]"
+      className="rounded-lg font-body border border-alert text-alert px-2.5 py-1.5 text-[0.78rem] hover:bg-alert-soft"
       onClick={(e) => {
         if (!confirm(confirmText)) e.preventDefault();
       }}

@@ -44,7 +44,7 @@ export default async function ExpensesPage({
             <input name="note" defaultValue={editing?.note ?? ""} placeholder="Optional" />
           </Field>
           <div className="col-span-full flex gap-2 items-center mt-1">
-            <button type="submit" className="bg-accent text-accent-ink font-semibold rounded px-4 py-2 text-sm hover:brightness-[1.06]">
+            <button type="submit" className="bg-accent text-accent-ink font-semibold rounded-lg px-4 py-2 text-sm shadow-sm hover:brightness-[1.08]">
               {editing ? "Save changes" : "Add expense"}
             </button>
             {editing && (
@@ -61,7 +61,7 @@ export default async function ExpensesPage({
         <TableWrap>
           <table className="w-full text-sm border-collapse min-w-[640px]">
             <thead>
-              <tr className="bg-surface-2 text-left text-[0.7rem] uppercase tracking-wide text-ink-soft">
+              <tr className="bg-surface-2 text-left text-[0.7rem] font-medium text-ink-soft">
                 <th className="px-2.5 py-2">Date</th>
                 <th className="px-2.5 py-2">Category</th>
                 <th className="px-2.5 py-2">Note</th>
@@ -78,7 +78,7 @@ export default async function ExpensesPage({
                   <td className="px-2.5 py-2 text-right mono">{fmtMoney(e.amount)}</td>
                   <td className="px-2.5 py-2">
                     <div className="flex gap-1.5">
-                      <a href={`/expenses?edit=${e.id}`} className="rounded border border-line-strong px-2.5 py-1.5 text-[0.78rem]">
+                      <a href={`/expenses?edit=${e.id}`} className="rounded-lg border border-line-strong px-2.5 py-1.5 text-[0.78rem] shadow-sm hover:border-ink-soft">
                         Edit
                       </a>
                       <form action={deleteExpense}>

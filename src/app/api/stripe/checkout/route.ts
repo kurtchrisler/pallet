@@ -32,8 +32,7 @@ export async function POST() {
       .upsert({ user_id: user.id, stripe_customer_id: customerId, status: "none" }, { onConflict: "user_id" });
   }
 
-  const trialDays = Number(process.env.STRIPE_TRIAL_DAYS || 0);
-
+  // No free trial: checkout always starts an immediately-billed subscription.
   const session = await stripe.checkout.sessions.create({
     mode: "subscription",
     customer: customerId,
@@ -41,7 +40,6 @@ export async function POST() {
     line_items: [{ price: priceId, quantity: 1 }],
     subscription_data: {
       metadata: { supabase_user_id: user.id },
-      ...(trialDays > 0 ? { trial_period_days: trialDays } : {}),
     },
     success_url: `${siteUrl()}/dashboard?checkout=success`,
     cancel_url: `${siteUrl()}/billing?checkout=cancelled`,

@@ -19,7 +19,7 @@ export default async function SignupPage({
         </Link>
         <div className="bg-surface border border-line rounded-xl shadow-sm p-6">
           <h1 className="text-xl font-display font-semibold mb-1 tracking-tight">Create your account</h1>
-          <p className="text-sm text-ink-soft mb-5">Start your free trial — no card required to sign up.</p>
+          <p className="text-sm text-ink-soft mb-5">Create your account, then subscribe to get started.</p>
 
           {error && <div className="mb-4 text-sm bg-alert-soft text-alert rounded-lg px-3 py-2">{error}</div>}
 

@@ -30,7 +30,7 @@ export default function PricingPage() {
             href="/signup"
             className="bg-accent text-accent-ink font-semibold rounded-lg px-4 py-2 shadow-sm hover:brightness-[1.08]"
           >
-            Start free trial
+            Get started
           </Link>
         </nav>
       </header>
@@ -56,7 +56,7 @@ export default function PricingPage() {
             href="/signup"
             className="mt-6 block text-center bg-accent text-accent-ink font-semibold rounded-lg px-4 py-2.5 text-sm shadow-sm hover:brightness-[1.08]"
           >
-            Start free trial
+            Subscribe now
           </Link>
         </div>
       </section>

@@ -40,7 +40,7 @@ export default function LandingPage() {
             href="/signup"
             className="bg-accent text-accent-ink font-semibold rounded-lg px-4 py-2 shadow-sm hover:brightness-[1.08]"
           >
-            Start free trial
+            Get started
           </Link>
         </nav>
       </header>
@@ -69,7 +69,7 @@ export default function LandingPage() {
               href="/signup"
               className="bg-accent text-accent-ink font-semibold rounded-lg px-5 py-3 text-sm shadow-sm hover:brightness-[1.08]"
             >
-              Start free trial
+              Subscribe now
             </Link>
             <Link
               href="/pricing"
@@ -95,12 +95,12 @@ export default function LandingPage() {
       <section className="max-w-[720px] mx-auto px-4 pb-20 text-center">
         <div className="bg-surface border border-line rounded-xl shadow-sm p-8">
           <h2 className="text-xl font-display font-semibold mb-2 tracking-tight">Ready to see your real numbers?</h2>
-          <p className="text-sm text-ink-soft mb-5">Start your free trial — no credit card required to sign up.</p>
+          <p className="text-sm text-ink-soft mb-5">Create your account and subscribe — you&apos;ll be tracking real numbers in minutes.</p>
           <Link
             href="/signup"
             className="bg-accent text-accent-ink font-semibold rounded-lg px-5 py-3 text-sm shadow-sm inline-block hover:brightness-[1.08]"
           >
-            Create your account
+            Get started
           </Link>
         </div>
       </section>

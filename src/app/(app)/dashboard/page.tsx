@@ -1,12 +1,19 @@
 import Link from "next/link";
 import { Wallet, TrendingUp, DollarSign, Package, Percent, Star, Plus } from "lucide-react";
 import { getAppContext } from "@/lib/app-context";
-import { agingItems, bestSources, computeMetrics, fmtMoney, fmtMonth, monthlyPL } from "@/lib/calc";
+import { agingItems, bestSources, computeMetrics, DASHBOARD_RANGES, fmtMoney, fmtMonth, monthlyPL } from "@/lib/calc";
 import type { Expense, Item, Pallet, Sale } from "@/lib/types";
-import { EmptyState, KpiTile, SectionTitle, TableWrap, AgingBadge, Pill } from "@/components/ui";
+import { EmptyState, Field, KpiTile, SectionTitle, TableWrap, AgingBadge, Pill } from "@/components/ui";
+import { AutoSubmitSelect } from "@/components/AutoSubmitSelect";
 
-export default async function DashboardPage() {
+export default async function DashboardPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ range?: string }>;
+}) {
   const { supabase } = await getAppContext();
+  const { range: rangeParam = "all" } = await searchParams;
+  const rangeDays = DASHBOARD_RANGES.find((d) => String(d) === rangeParam) ?? null;
 
   const [{ data: pallets }, { data: items }, { data: sales }, { data: expenses }] = await Promise.all([
     supabase.from("pallets").select("*"),
@@ -22,7 +29,7 @@ export default async function DashboardPage() {
     expenses: (expenses ?? []) as Expense[],
   };
 
-  const m = computeMetrics(data);
+  const m = computeMetrics(data, rangeDays);
   const sources = bestSources(data).slice(0, 5);
   const months = monthlyPL(data);
   const aging = agingItems(data, 30).slice(0, 6);
@@ -47,6 +54,19 @@ export default async function DashboardPage() {
           Add Item
         </Link>
       </div>
+
+      <form method="get" className="flex justify-end mb-2.5">
+        <Field label="Showing">
+          <AutoSubmitSelect name="range" defaultValue={rangeParam} className="!w-auto py-1.5 text-sm">
+            <option value="all">All time</option>
+            {DASHBOARD_RANGES.map((d) => (
+              <option key={d} value={d}>
+                Last {d} day{d === 1 ? "" : "s"}
+              </option>
+            ))}
+          </AutoSubmitSelect>
+        </Field>
+      </form>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 mb-5">
         <KpiTile

@@ -59,19 +59,39 @@ export function buildIndex(data: LedgerData) {
   return { palletsById, itemsByPallet, saleByItem, costByItem };
 }
 
-export function computeMetrics(data: LedgerData) {
+/** The date-range options the dashboard's period filter offers, in days.
+ * `null` (selected via "All") means no filtering — every record counts. */
+export const DASHBOARD_RANGES = [1, 7, 15, 30, 60] as const;
+
+function withinRange(dateStr: string | null | undefined, days: number | null) {
+  if (days === null) return true;
+  if (!dateStr) return false;
+  return daysSince(dateStr.slice(0, 10)) < days;
+}
+
+/** Computes the dashboard's headline numbers. `days` scopes the "flow"
+ * figures (money spent, earned, and sold-in-period counts) to the trailing
+ * N days by each record's own date; pass `null` (the default) for all-time.
+ * "Inventory On Hand" and the items-listed count stay a live, current-moment
+ * snapshot regardless of the window — how much stock you have right now
+ * doesn't depend on which reporting period you're looking at. */
+export function computeMetrics(data: LedgerData, days: number | null = null) {
   const { costByItem } = buildIndex(data);
-  const palletSpend = data.pallets.reduce((s, p) => s + palletCostBasis(p), 0);
-  const expenseSpend = data.expenses.reduce((s, e) => s + Number(e.amount || 0), 0);
+
+  const palletsInRange = data.pallets.filter((p) => withinRange(p.purchase_date, days));
+  const expensesInRange = data.expenses.filter((e) => withinRange(e.expense_date, days));
+  const salesInRange = data.sales.filter((s) => withinRange(s.sale_date, days));
+
+  const palletSpend = palletsInRange.reduce((s, p) => s + palletCostBasis(p), 0);
+  const expenseSpend = expensesInRange.reduce((s, e) => s + Number(e.amount || 0), 0);
   const totalInvested = palletSpend + expenseSpend;
-  const revenue = data.sales.reduce((s, sale) => s + Number(sale.price || 0), 0);
-  const soldItems = data.items.filter((i) => i.status === "sold");
+  const revenue = salesInRange.reduce((s, sale) => s + Number(sale.price || 0), 0);
   const inStockItems = data.items.filter((i) => i.status !== "sold");
-  const cogs = soldItems.reduce((s, i) => s + (costByItem.get(i.id) ?? 0), 0);
+  const cogs = salesInRange.reduce((s, sale) => s + (costByItem.get(sale.item_id) ?? 0), 0);
   const grossProfit = revenue - cogs;
   const netProfit = grossProfit - expenseSpend;
   const inventoryValue = inStockItems.reduce((s, i) => s + (costByItem.get(i.id) ?? 0), 0);
-  const sellThrough = data.items.length ? (soldItems.length / data.items.length) * 100 : 0;
+  const sellThrough = data.items.length ? (salesInRange.length / data.items.length) * 100 : 0;
   const avgMargin = revenue > 0 ? (grossProfit / revenue) * 100 : 0;
 
   return {
@@ -85,7 +105,7 @@ export function computeMetrics(data: LedgerData) {
     inventoryValue,
     sellThrough,
     avgMargin,
-    soldCount: soldItems.length,
+    soldCount: salesInRange.length,
     inStockCount: inStockItems.length,
     itemCount: data.items.length,
   };

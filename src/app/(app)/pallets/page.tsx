@@ -92,7 +92,7 @@ export default async function PalletsPage({
       <SectionTitle title="All pallets" hint={`${palletRows.length} total`} />
       {palletRows.length ? (
         <TableWrap>
-          <table className="w-full text-sm border-collapse min-w-[640px]">
+          <table className="w-full text-sm border-collapse min-w-[760px]">
             <thead>
               <tr className="bg-surface-2 text-left text-[0.7rem] font-medium text-ink-soft">
                 <th className="px-2.5 py-2">Source</th>
@@ -100,7 +100,8 @@ export default async function PalletsPage({
                 <th className="px-2.5 py-2 text-right">Cost+Freight</th>
                 <th className="px-2.5 py-2 text-right">Items</th>
                 <th className="px-2.5 py-2 text-right">Sold</th>
-                <th className="px-2.5 py-2 text-right">Profit</th>
+                <th className="px-2.5 py-2 text-right">Current Profit</th>
+                <th className="px-2.5 py-2 text-right">Net Profit</th>
                 <th className="px-2.5 py-2" />
               </tr>
             </thead>
@@ -112,6 +113,11 @@ export default async function PalletsPage({
                   const sale = saleByItem.get(i.id);
                   return s + (sale ? Number(sale.price) - (costByItem.get(i.id) ?? 0) : 0);
                 }, 0);
+                const revenue = sold.reduce((s, i) => {
+                  const sale = saleByItem.get(i.id);
+                  return s + (sale ? Number(sale.price) : 0);
+                }, 0);
+                const netProfit = revenue - palletCostBasis(p);
                 return (
                   <tr key={p.id} className="border-t border-line">
                     <td className="px-2.5 py-2 align-middle">
@@ -124,6 +130,9 @@ export default async function PalletsPage({
                     <td className="px-2.5 py-2 text-right">{sold.length}</td>
                     <td className={`px-2.5 py-2 text-right mono ${profit >= 0 ? "text-good" : "text-alert"}`}>
                       {sold.length ? fmtMoney(profit) : "—"}
+                    </td>
+                    <td className={`px-2.5 py-2 text-right mono ${netProfit >= 0 ? "text-good" : "text-alert"}`}>
+                      {fmtMoney(netProfit)}
                     </td>
                     <td className="px-2.5 py-2">
                       <div className="flex gap-1.5">

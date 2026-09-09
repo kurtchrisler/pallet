@@ -23,24 +23,41 @@ export function SectionTitle({ title, hint }: { title: string; hint?: string }) 
   );
 }
 
+const KPI_TONES: Record<string, { badge: string; icon: string }> = {
+  default: { badge: "bg-accent-soft", icon: "text-accent" },
+  good: { badge: "bg-good-soft", icon: "text-good" },
+  alert: { badge: "bg-alert-soft", icon: "text-alert" },
+  info: { badge: "bg-info-soft", icon: "text-info" },
+  violet: { badge: "bg-violet-soft", icon: "text-violet" },
+  amber: { badge: "bg-amber-soft", icon: "text-amber" },
+};
+
 export function KpiTile({
   label,
   value,
   hint,
   tone = "default",
+  icon,
 }: {
   label: string;
   value: string;
   hint?: string;
-  tone?: "default" | "good" | "alert";
+  tone?: "default" | "good" | "alert" | "info" | "violet" | "amber";
+  icon?: ReactNode;
 }) {
-  const accent = tone === "good" ? "bg-good" : tone === "alert" ? "bg-alert" : "bg-accent";
+  const s = KPI_TONES[tone] ?? KPI_TONES.default;
   return (
-    <div className="relative bg-surface border border-line rounded-xl shadow-sm px-4 py-3.5 overflow-hidden">
-      <span className={`absolute inset-x-0 top-0 h-[3px] ${accent}`} />
-      <div className="text-[0.7rem] font-medium text-ink-soft">{label}</div>
-      <div className="mono text-[1.4rem] font-semibold mt-1 tracking-tight">{value}</div>
-      {hint && <div className="text-xs text-ink-faint mt-0.5">{hint}</div>}
+    <div className="bg-surface border border-line rounded-xl shadow-sm p-4">
+      <div className="flex items-start justify-between gap-2">
+        <div className="text-[0.7rem] font-medium text-ink-soft uppercase tracking-wide">{label}</div>
+        {icon && (
+          <span className={`w-8 h-8 flex-none rounded-lg flex items-center justify-center ${s.badge} ${s.icon}`}>
+            {icon}
+          </span>
+        )}
+      </div>
+      <div className="mono text-2xl font-bold mt-2.5 tracking-tight">{value}</div>
+      {hint && <div className="text-xs text-ink-faint mt-1">{hint}</div>}
     </div>
   );
 }

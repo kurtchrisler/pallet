@@ -18,6 +18,16 @@
   --good-soft: #e1f7ec;
   --alert: #dc2626;
   --alert-soft: #fce8e8;
+  --info: #2563eb;
+  --info-soft: #dbeafe;
+  --violet: #7c3aed;
+  --violet-soft: #ede9fe;
+
+  /* The app sidebar is always dark, regardless of light/dark theme —
+     a common SaaS pattern — so these don't move in the theme blocks below. */
+  --sidebar: #10152a;
+  --sidebar-ink: #eef0f6;
+  --sidebar-ink-soft: #8b93ab;
 }
 
 @theme inline {
@@ -38,6 +48,13 @@
   --color-good-soft: var(--good-soft);
   --color-alert: var(--alert);
   --color-alert-soft: var(--alert-soft);
+  --color-info: var(--info);
+  --color-info-soft: var(--info-soft);
+  --color-violet: var(--violet);
+  --color-violet-soft: var(--violet-soft);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-ink: var(--sidebar-ink);
+  --color-sidebar-ink-soft: var(--sidebar-ink-soft);
   --font-display: "Inter", system-ui, sans-serif;
   --font-body: "Inter", system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, monospace;
@@ -72,6 +89,10 @@
     --good-soft: #123023;
     --alert: #f87171;
     --alert-soft: #3a1c1c;
+    --info: #60a5fa;
+    --info-soft: #1e3a5f;
+    --violet: #a78bfa;
+    --violet-soft: #2e1f4d;
   }
 }
 
@@ -93,6 +114,10 @@
   --good-soft: #123023;
   --alert: #f87171;
   --alert-soft: #3a1c1c;
+  --info: #60a5fa;
+  --info-soft: #1e3a5f;
+  --violet: #a78bfa;
+  --violet-soft: #2e1f4d;
 }
 
 * {

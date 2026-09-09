@@ -13,6 +13,8 @@ export async function submitItem(formData: FormData) {
     redirect("/items?error=" + encodeURIComponent("Add a pallet first."));
   }
 
+  const costOverrideRaw = String(formData.get("cost_override") || "").trim();
+
   const payload = {
     pallet_id: palletId,
     name: String(formData.get("name") || "").trim() || "Unnamed item",
@@ -23,6 +25,7 @@ export async function submitItem(formData: FormData) {
     item_number: String(formData.get("item_number") || "").trim(),
     est_value: Number(formData.get("est_value") || 0),
     retail_value: Number(formData.get("retail_value") || 0),
+    cost_override: costOverrideRaw === "" ? null : Number(costOverrideRaw),
     note: String(formData.get("note") || "").trim(),
     listed: formData.get("listed") === "1",
   };

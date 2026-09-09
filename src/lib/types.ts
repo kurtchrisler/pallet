@@ -21,6 +21,7 @@ export type Item = {
   item_number: string;
   est_value: number;
   retail_value: number;
+  cost_override: number | null;
   note: string;
   status: "in_stock" | "sold";
   listed: boolean;

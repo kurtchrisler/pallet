@@ -140,6 +140,16 @@ export default async function ItemsPage({
           <Field label="Est. resale value ($)">
             <input type="number" step="0.01" min="0" name="est_value" defaultValue={editing?.est_value ?? ""} placeholder="0.00" />
           </Field>
+          <Field label="Cost override ($)">
+            <input
+              type="number"
+              step="0.01"
+              min="0"
+              name="cost_override"
+              defaultValue={editing?.cost_override ?? ""}
+              placeholder="Auto-calculated"
+            />
+          </Field>
           <Field label="Note">
             <input name="note" defaultValue={editing?.note ?? ""} placeholder="Optional" />
           </Field>
@@ -156,7 +166,9 @@ export default async function ItemsPage({
                 Cancel
               </a>
             )}
-            <span className="text-xs text-ink-faint">Cost is split across a lot&apos;s items by retail value.</span>
+            <span className="text-xs text-ink-faint">
+              Cost is split across a lot&apos;s items by retail value, unless you set a cost override.
+            </span>
           </div>
         </form>
       </Card>
@@ -246,7 +258,17 @@ export default async function ItemsPage({
                       <td className="px-2.5 py-2">{i.category}</td>
                       <td className="px-2.5 py-2">{i.condition}</td>
                       <td className="px-2.5 py-2 text-right mono">{i.retail_value ? fmtMoney(i.retail_value) : "—"}</td>
-                      <td className="px-2.5 py-2 text-right mono">{fmtMoney(cost)}</td>
+                      <td className="px-2.5 py-2 text-right mono">
+                        {fmtMoney(cost)}
+                        {i.cost_override != null && (
+                          <span
+                            className="ml-1 text-[0.62rem] font-sans font-medium text-accent align-middle"
+                            title="Manually overridden"
+                          >
+                            •
+                          </span>
+                        )}
+                      </td>
                       <td className="px-2.5 py-2">
                         {sold ? (
                           <Pill tone="sold">Sold</Pill>

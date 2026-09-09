@@ -11,13 +11,30 @@ export function palletCostBasis(p: Pick<Pallet, "cost" | "freight">) {
  * each item's Retail Value — an item worth 10% of the pallet's total
  * retail value carries 10% of the pallet's cost. If nothing in the pallet
  * has a retail value set yet, costs split evenly instead of collapsing to
- * zero. */
+ * zero.
+ *
+ * An item with `cost_override` set skips all of this and just uses that
+ * value directly. The other items in the pallet still add up correctly:
+ * overridden items' costs come out of the pallet basis first, and the
+ * remainder is what gets split (by the same retail-value proportion) across
+ * the items that don't have an override. */
 export function allocatedCost(item: Item, pallet: Pallet | undefined, siblings: Item[]) {
+  if (item.cost_override !== null && item.cost_override !== undefined) {
+    return Number(item.cost_override);
+  }
   if (!pallet) return 0;
-  const totalRetail = siblings.reduce((s, i) => s + Number(i.retail_value || 0), 0);
+
   const basis = palletCostBasis(pallet);
-  if (totalRetail > 0) return basis * (Number(item.retail_value || 0) / totalRetail);
-  return siblings.length ? basis / siblings.length : 0;
+  const overriddenTotal = siblings.reduce(
+    (s, i) => s + (i.cost_override !== null && i.cost_override !== undefined ? Number(i.cost_override) : 0),
+    0
+  );
+  const remaining = basis - overriddenTotal;
+
+  const autoSiblings = siblings.filter((i) => i.cost_override === null || i.cost_override === undefined);
+  const totalRetail = autoSiblings.reduce((s, i) => s + Number(i.retail_value || 0), 0);
+  if (totalRetail > 0) return remaining * (Number(item.retail_value || 0) / totalRetail);
+  return autoSiblings.length ? remaining / autoSiblings.length : 0;
 }
 
 export function daysSince(iso: string) {

@@ -13,9 +13,9 @@ export default async function SignupPage({
       <div className="w-full max-w-sm">
         <Link href="/" className="flex items-center gap-2 mb-8 justify-center">
           <div className="w-8 h-8 bg-accent text-accent-ink rounded-lg flex items-center justify-center font-display font-bold text-sm">
-            PL
+            FT
           </div>
-          <span className="font-display font-semibold text-lg tracking-tight">Pallet Ledger</span>
+          <span className="font-display font-semibold text-lg tracking-tight">FlipTrackr</span>
         </Link>
         <div className="bg-surface border border-line rounded-xl shadow-sm p-6">
           <h1 className="text-xl font-display font-semibold mb-1 tracking-tight">Create your account</h1>

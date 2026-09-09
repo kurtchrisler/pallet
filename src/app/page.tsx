@@ -25,9 +25,9 @@ export default function LandingPage() {
       <header className="max-w-[1080px] mx-auto px-4 py-5 flex items-center justify-between">
         <div className="flex items-center gap-2.5">
           <div className="w-8 h-8 bg-accent text-accent-ink rounded-lg flex items-center justify-center font-display font-bold text-sm">
-            PL
+            FT
           </div>
-          <span className="font-display font-semibold text-lg tracking-tight">Pallet Ledger</span>
+          <span className="font-display font-semibold text-lg tracking-tight">FlipTrackr</span>
         </div>
         <nav className="flex items-center gap-5 text-sm">
           <Link href="/pricing" className="text-ink-soft hover:text-ink">
@@ -106,7 +106,7 @@ export default function LandingPage() {
       </section>
 
       <footer className="max-w-[1080px] mx-auto px-4 py-8 border-t border-line text-sm text-ink-faint flex flex-wrap gap-4 justify-between">
-        <span>© {new Date().getFullYear()} Pallet Ledger</span>
+        <span>© {new Date().getFullYear()} FlipTrackr</span>
         <div className="flex gap-4">
           <Link href="/pricing" className="hover:text-ink-soft">
             Pricing

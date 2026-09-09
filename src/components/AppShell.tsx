@@ -29,10 +29,10 @@ export function AppShell({
         <div className="flex items-center justify-between gap-3 max-w-[1080px] mx-auto px-4 py-3.5">
           <Link href="/dashboard" className="flex items-center gap-3">
             <div className="w-8 h-8 flex-none bg-accent text-accent-ink rounded-lg flex items-center justify-center font-display font-bold text-sm">
-              PL
+              FT
             </div>
             <div>
-              <h1 className="text-[0.95rem] font-display font-semibold leading-tight tracking-tight">Pallet Ledger</h1>
+              <h1 className="text-[0.95rem] font-display font-semibold leading-tight tracking-tight">FlipTrackr</h1>
               <p className="text-[0.72rem] text-ink-faint leading-tight">{email}</p>
             </div>
           </Link>

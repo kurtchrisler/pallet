@@ -18,9 +18,9 @@ export default function PricingPage() {
       <header className="max-w-[1080px] mx-auto px-4 py-5 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2.5">
           <div className="w-8 h-8 bg-accent text-accent-ink rounded-lg flex items-center justify-center font-display font-bold text-sm">
-            PL
+            FT
           </div>
-          <span className="font-display font-semibold text-lg tracking-tight">Pallet Ledger</span>
+          <span className="font-display font-semibold text-lg tracking-tight">FlipTrackr</span>
         </Link>
         <nav className="flex items-center gap-5 text-sm">
           <Link href="/login" className="text-ink-soft hover:text-ink">

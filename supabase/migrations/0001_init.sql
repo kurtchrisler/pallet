@@ -1,4 +1,4 @@
--- Pallet Ledger — initial multi-tenant schema
+-- FlipTrackr — initial multi-tenant schema
 -- Run this once in your Supabase project's SQL editor (or via `supabase db push`).
 -- Every business table carries `user_id default auth.uid()` and row-level security
 -- so one signed-in user can only ever see or touch their own rows.

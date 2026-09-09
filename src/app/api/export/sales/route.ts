@@ -49,7 +49,7 @@ export async function GET() {
   return new Response(csv, {
     headers: {
       "Content-Type": "text/csv; charset=utf-8",
-      "Content-Disposition": `attachment; filename="pallet-ledger-sales-${new Date().toISOString().slice(0, 10)}.csv"`,
+      "Content-Disposition": `attachment; filename="fliptrackr-sales-${new Date().toISOString().slice(0, 10)}.csv"`,
     },
   });
 }

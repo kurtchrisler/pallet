@@ -27,7 +27,7 @@ export default async function BillingPage({
   return (
     <section className="max-w-lg">
       <h2 className="text-[1.05rem] font-display font-semibold">Billing</h2>
-      <p className="text-sm text-ink-soft mb-4">Manage your Pallet Ledger subscription.</p>
+      <p className="text-sm text-ink-soft mb-4">Manage your FlipTrackr subscription.</p>
 
       {error && <div className="mb-4 text-sm bg-alert-soft text-alert rounded-lg px-3 py-2">{error}</div>}
       {checkout === "cancelled" && (

@@ -1,4 +1,4 @@
-# Pallet Ledger — deployment guide
+# FlipTrackr — deployment guide
 
 This is a real, multi-tenant web app: anyone who signs up gets their own private
 pallets/items/sales/expenses, and pays you a monthly subscription (via Stripe) to
@@ -18,7 +18,7 @@ Budget about an hour for the first pass.
 ## 1. Create your Supabase project
 
 1. Go to [supabase.com](https://supabase.com), sign up, and click **New project**.
-2. Pick a name (e.g. "pallet-ledger"), a strong database password (save it somewhere —
+2. Pick a name (e.g. "fliptrackr"), a strong database password (save it somewhere —
    you likely won't need it again, but keep it safe), and a region close to your
    customers. Wait a minute or two for it to provision.
 3. In the left sidebar, go to **SQL Editor** → **New query**. Open the file
@@ -33,7 +33,7 @@ Budget about an hour for the first pass.
      Treat this one like a master password — never put it in anything that reaches
      a browser.
 5. Go to **Authentication → URL Configuration**. Once you know your production URL
-   (step 4 below), set **Site URL** to it (e.g. `https://palletledger.com`), and
+   (step 4 below), set **Site URL** to it (e.g. `https://fliptrackr.com`), and
    add `https://YOUR-DOMAIN/auth/callback` under **Redirect URLs**. You can leave
    these pointed at `http://localhost:3000` for now and come back after you deploy.
 6. Optional but recommended: **Authentication → Email Templates** — Supabase sends
@@ -52,7 +52,7 @@ enforced by the database itself, not just the app code.
    existing one). Complete their business verification when prompted — you can
    test everything in **Test mode** before that's finished.
 2. Make sure you're in **Test mode** (toggle, top right) while you set things up.
-3. Go to **Product catalog → Add product**. Name it (e.g. "Pallet Ledger Pro"),
+3. Go to **Product catalog → Add product**. Name it (e.g. "FlipTrackr Pro"),
    set a recurring price (e.g. $19.00/month), and save. Click into the price you
    just created and copy its **Price ID** (starts with `price_`) — this is
    `STRIPE_PRICE_ID`.
@@ -92,7 +92,7 @@ enforced by the database itself, not just the app code.
    - `STRIPE_PRICE_ID`
    - `STRIPE_WEBHOOK_SECRET` — put a placeholder like `whsec_pending` for now,
      you'll update it in a minute
-   - `NEXT_PUBLIC_SITE_URL` — your Vercel URL, e.g. `https://pallet-ledger.vercel.app`
+   - `NEXT_PUBLIC_SITE_URL` — your Vercel URL, e.g. `https://fliptrackr.vercel.app`
      (or your custom domain if you're adding one now — see step 6)
    - `NEXT_PUBLIC_PLAN_NAME` and `NEXT_PUBLIC_PLAN_PRICE_DISPLAY` — cosmetic text
      for the pricing page, e.g. `Pro` and `$19/mo`
@@ -130,7 +130,7 @@ redeploy.
 
 With Stripe still in **Test mode**:
 
-1. Visit your live URL → **Start free trial** → create an account with a real
+1. Visit your live URL → **Get started** → create an account with a real
    email you can check → confirm the email → you should land on the dashboard.
 2. Go to **Billing → Subscribe**. Use Stripe's test card `4242 4242 4242 4242`,
    any future expiry date, any CVC. You should be redirected back and the

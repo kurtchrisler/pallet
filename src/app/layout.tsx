@@ -9,9 +9,9 @@ import "@fontsource/ibm-plex-mono/600.css";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Pallet Ledger — Inventory & Profit Tracking for Resellers",
+  title: "FlipTrackr — Inventory & Profit Tracking for Resellers",
   description:
-    "Track pallet purchases, break them into inventory, log sales, and see real profit per item and per source.",
+    "Track what you pay for inventory, break it down item by item, log sales, and see real profit per item and per source.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

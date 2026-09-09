@@ -31,7 +31,7 @@ export default async function DashboardPage() {
       <p className="text-sm text-ink-soft mb-4">Your business at a glance.</p>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 mb-5">
-        <KpiTile label="Total Invested" value={fmtMoney(m.totalInvested)} hint="Pallets + expenses" />
+        <KpiTile label="Total Invested" value={fmtMoney(m.totalInvested)} hint="Lots + expenses" />
         <KpiTile label="Revenue" value={fmtMoney(m.revenue)} hint={`${m.soldCount} items sold`} tone="good" />
         <KpiTile
           label="Net Profit"
@@ -44,14 +44,14 @@ export default async function DashboardPage() {
         <KpiTile label="Avg. Margin" value={`${m.avgMargin.toFixed(0)}%`} hint="on realized sales" />
       </div>
 
-      <SectionTitle title="Aging inventory" hint="Unsold 30+ days since pallet date" />
+      <SectionTitle title="Aging inventory" hint="Unsold 30+ days since lot date" />
       {aging.length ? (
         <TableWrap>
           <table className="w-full text-sm border-collapse min-w-[560px]">
             <thead>
               <tr className="bg-surface-2 text-left text-[0.7rem] font-medium text-ink-soft">
                 <th className="px-2.5 py-2">Item</th>
-                <th className="px-2.5 py-2">Pallet</th>
+                <th className="px-2.5 py-2">Lot</th>
                 <th className="px-2.5 py-2">Category</th>
                 <th className="px-2.5 py-2">Age</th>
                 <th className="px-2.5 py-2" />
@@ -80,14 +80,14 @@ export default async function DashboardPage() {
         <EmptyState>Nothing aging past 30 days. Nice.</EmptyState>
       )}
 
-      <SectionTitle title="Best pallet sources" hint="Ranked by realized profit" />
+      <SectionTitle title="Best lot sources" hint="Ranked by realized profit" />
       {sources.length ? (
         <TableWrap>
           <table className="w-full text-sm border-collapse min-w-[560px]">
             <thead>
               <tr className="bg-surface-2 text-left text-[0.7rem] font-medium text-ink-soft">
                 <th className="px-2.5 py-2">Source</th>
-                <th className="px-2.5 py-2 text-right">Pallets</th>
+                <th className="px-2.5 py-2 text-right">Lots</th>
                 <th className="px-2.5 py-2 text-right">Spend</th>
                 <th className="px-2.5 py-2 text-right">Items Sold</th>
                 <th className="px-2.5 py-2 text-right">Profit</th>
@@ -107,7 +107,7 @@ export default async function DashboardPage() {
           </table>
         </TableWrap>
       ) : (
-        <EmptyState>Add a pallet to see source rankings.</EmptyState>
+        <EmptyState>Add a lot to see source rankings.</EmptyState>
       )}
 
       <SectionTitle title="Monthly P&L" hint="Last 6 months with activity" />

@@ -36,7 +36,7 @@ export default async function PalletsPage({
 
   return (
     <section>
-      <h2 className="text-[1.05rem] font-display font-semibold">Pallets</h2>
+      <h2 className="text-[1.05rem] font-display font-semibold">Lots</h2>
       <p className="text-sm text-ink-soft mb-4">Every load you&apos;ve bought, and what it cost.</p>
 
       {error && <div className="mb-4 text-sm bg-alert-soft text-alert rounded-lg px-3 py-2">{error}</div>}
@@ -55,7 +55,7 @@ export default async function PalletsPage({
           <Field label="Pickup date">
             <input type="date" name="purchase_date" defaultValue={editing?.purchase_date ?? new Date().toISOString().slice(0, 10)} />
           </Field>
-          <Field label="Pallet cost ($)">
+          <Field label="Lot cost ($)">
             <input type="number" step="0.01" min="0" name="cost" defaultValue={editing?.cost ?? ""} placeholder="0.00" />
           </Field>
           <Field label="Freight / pickup ($)">
@@ -66,7 +66,7 @@ export default async function PalletsPage({
           </Field>
           <div className="col-span-full flex gap-2 items-center mt-1">
             <button type="submit" className="bg-accent text-accent-ink font-semibold rounded-lg px-4 py-2 text-sm shadow-sm hover:brightness-[1.08]">
-              {editing ? "Save changes" : "Add pallet"}
+              {editing ? "Save changes" : "Add lot"}
             </button>
             {editing && (
               <a href="/pallets" className="text-ink-soft text-sm px-3 py-2">
@@ -89,7 +89,7 @@ export default async function PalletsPage({
         </Card>
       )}
 
-      <SectionTitle title="All pallets" hint={`${palletRows.length} total`} />
+      <SectionTitle title="All lots" hint={`${palletRows.length} total`} />
       {palletRows.length ? (
         <TableWrap>
           <table className="w-full text-sm border-collapse min-w-[760px]">
@@ -147,8 +147,8 @@ export default async function PalletsPage({
                           <ConfirmDeleteButton
                             confirmText={
                               its.length
-                                ? `Delete this pallet and all ${its.length} item${its.length === 1 ? "" : "s"} in it, including any sale records? This can't be undone.`
-                                : "Delete this pallet? This can't be undone."
+                                ? `Delete this lot and all ${its.length} item${its.length === 1 ? "" : "s"} in it, including any sale records? This can't be undone.`
+                                : "Delete this lot? This can't be undone."
                             }
                           />
                         </form>
@@ -161,7 +161,7 @@ export default async function PalletsPage({
           </table>
         </TableWrap>
       ) : (
-        <EmptyState>No pallets yet for {user.email} — add your first one above.</EmptyState>
+        <EmptyState>No lots yet for {user.email} — add your first one above.</EmptyState>
       )}
     </section>
   );

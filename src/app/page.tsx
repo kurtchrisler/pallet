@@ -3,12 +3,12 @@ import Image from "next/image";
 
 const FEATURES = [
   {
-    title: "Break pallets into real inventory",
-    body: "Log what you paid for a pallet, then split it into the individual items inside — cost allocates automatically by retail value, so every item has a true cost basis instead of a guess.",
+    title: "Break lots into real inventory",
+    body: "Log what you paid for a lot, then split it into the individual items inside — cost allocates automatically by retail value, so every item has a true cost basis instead of a guess.",
   },
   {
     title: "Know your profit, not just your revenue",
-    body: "Every sale shows real profit after allocated cost. The dashboard rolls it up by month and ranks your pallet sources so you know which suppliers are actually worth buying from.",
+    body: "Every sale shows real profit after allocated cost. The dashboard rolls it up by month and ranks your lot sources so you know which suppliers are actually worth buying from.",
   },
   {
     title: "Catch inventory before it goes stale",
@@ -16,7 +16,7 @@ const FEATURES = [
   },
   {
     title: "Built for how you actually work",
-    body: "Log a pallet at pickup, break it into items that night, mark things sold as they go — from your phone or your computer, anywhere you have a signal.",
+    body: "Log a lot at pickup, break it into items that night, mark things sold as they go — from your phone or your computer, anywhere you have a signal.",
   },
 ];
 
@@ -54,13 +54,13 @@ export default function LandingPage() {
         />
         <div className="relative max-w-[720px] mx-auto px-4 pt-14 pb-16 text-center">
           <span className="inline-flex items-center gap-1.5 bg-accent-soft text-accent text-xs font-medium px-3 py-1 rounded-full mb-5">
-            Built for pallet &amp; liquidation resellers
+            Built for lot &amp; liquidation resellers
           </span>
           <h1 className="text-4xl sm:text-5xl font-display font-semibold leading-[1.1] tracking-tight text-balance">
-            Inventory and profit tracking, built for pallet resellers
+            Inventory and profit tracking, built for lot resellers
           </h1>
           <p className="text-ink-soft mt-5 text-lg text-balance max-w-[560px] mx-auto">
-            Track what you pay for pallets, what&apos;s inside them, and what you actually make — without spreadsheets
+            Track what you pay for lots, what&apos;s inside them, and what you actually make — without spreadsheets
             that fall apart the moment you&apos;re moving fast.
           </p>
           <div className="flex items-center justify-center gap-3 mt-8">

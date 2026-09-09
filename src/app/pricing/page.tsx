@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 const INCLUDED = [
-  "Unlimited pallets, items, sales & expenses",
+  "Unlimited lots, items, sales & expenses",
   "Automatic per-item cost allocation",
   "Aging inventory alerts",
   "Best-source & monthly profit reports",

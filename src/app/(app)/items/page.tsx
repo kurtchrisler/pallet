@@ -67,8 +67,8 @@ export default async function ItemsPage({
     return (
       <section>
         <h2 className="text-[1.05rem] font-display font-semibold">Inventory</h2>
-        <p className="text-sm text-ink-soft mb-4">Every item, broken out of every pallet.</p>
-        <EmptyState>Add a pallet on the Pallets tab first, then break it into items here.</EmptyState>
+        <p className="text-sm text-ink-soft mb-4">Every item, broken out of every lot.</p>
+        <EmptyState>Add a lot on the Lots tab first, then break it into items here.</EmptyState>
       </section>
     );
   }
@@ -76,7 +76,7 @@ export default async function ItemsPage({
   return (
     <section>
       <h2 className="text-[1.05rem] font-display font-semibold">Inventory</h2>
-      <p className="text-sm text-ink-soft mb-4">Every item, broken out of every pallet.</p>
+      <p className="text-sm text-ink-soft mb-4">Every item, broken out of every lot.</p>
 
       {error && <div className="mb-4 text-sm bg-alert-soft text-alert rounded-lg px-3 py-2">{error}</div>}
       {imported && (
@@ -96,7 +96,7 @@ export default async function ItemsPage({
       <Card>
         <form action={submitItem} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
           {editing && <input type="hidden" name="id" value={editing.id} />}
-          <Field label="Pallet">
+          <Field label="Lot">
             <select name="pallet_id" defaultValue={editing?.pallet_id ?? palletRows[0].id}>
               {palletRows.map((p) => (
                 <option key={p.id} value={p.id}>
@@ -156,7 +156,7 @@ export default async function ItemsPage({
                 Cancel
               </a>
             )}
-            <span className="text-xs text-ink-faint">Cost is split across a pallet&apos;s items by retail value.</span>
+            <span className="text-xs text-ink-faint">Cost is split across a lot&apos;s items by retail value.</span>
           </div>
         </form>
       </Card>
@@ -169,9 +169,9 @@ export default async function ItemsPage({
             <option value="sold">Sold</option>
           </AutoSubmitSelect>
         </Field>
-        <Field label="Pallet">
+        <Field label="Lot">
           <AutoSubmitSelect name="pallet" defaultValue={pallet}>
-            <option value="all">All pallets</option>
+            <option value="all">All lots</option>
             {palletRows.map((p) => (
               <option key={p.id} value={p.id}>
                 {p.source}
@@ -204,7 +204,7 @@ export default async function ItemsPage({
                 <tr className="bg-surface-2 text-left text-[0.7rem] font-medium text-ink-soft">
                   <th className="px-2.5 py-2 w-8" />
                   <th className="px-2.5 py-2">Item</th>
-                  <th className="px-2.5 py-2">Pallet</th>
+                  <th className="px-2.5 py-2">Lot</th>
                   <th className="px-2.5 py-2">Category</th>
                   <th className="px-2.5 py-2">Condition</th>
                   <th className="px-2.5 py-2 text-right">Retail</th>

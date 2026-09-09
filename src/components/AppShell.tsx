@@ -7,7 +7,7 @@ import { signOut } from "@/app/auth/actions";
 
 const TABS = [
   { href: "/dashboard", label: "Dashboard" },
-  { href: "/pallets", label: "Pallets" },
+  { href: "/pallets", label: "Lots" },
   { href: "/items", label: "Items" },
   { href: "/sales", label: "Sales" },
   { href: "/expenses", label: "Expenses" },

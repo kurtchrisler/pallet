@@ -21,7 +21,7 @@ export default async function ExpensesPage({
   return (
     <section>
       <h2 className="text-[1.05rem] font-display font-semibold">Expenses</h2>
-      <p className="text-sm text-ink-soft mb-4">Everything besides pallet cost — gas, storage, fees, supplies.</p>
+      <p className="text-sm text-ink-soft mb-4">Everything besides lot cost — gas, storage, fees, supplies.</p>
 
       <Card>
         <form action={submitExpense} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">

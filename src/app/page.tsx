@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 const FEATURES = [
   {
@@ -24,9 +25,7 @@ export default function LandingPage() {
     <div className="min-h-screen bg-paper">
       <header className="max-w-[1080px] mx-auto px-4 py-5 flex items-center justify-between">
         <div className="flex items-center gap-2.5">
-          <div className="w-8 h-8 bg-accent text-accent-ink rounded-lg flex items-center justify-center font-display font-bold text-sm">
-            FT
-          </div>
+          <Image src="/logo.png" alt="FlipTrackr" width={32} height={32} className="w-8 h-8 rounded-lg" priority />
           <span className="font-display font-semibold text-lg tracking-tight">FlipTrackr</span>
         </div>
         <nav className="flex items-center gap-5 text-sm">

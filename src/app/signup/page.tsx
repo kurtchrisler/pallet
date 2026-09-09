@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { signUp } from "@/app/auth/actions";
 
 export default async function SignupPage({
@@ -12,9 +13,7 @@ export default async function SignupPage({
     <div className="min-h-screen flex items-center justify-center bg-paper px-4 py-12">
       <div className="w-full max-w-sm">
         <Link href="/" className="flex items-center gap-2 mb-8 justify-center">
-          <div className="w-8 h-8 bg-accent text-accent-ink rounded-lg flex items-center justify-center font-display font-bold text-sm">
-            FT
-          </div>
+          <Image src="/logo.png" alt="FlipTrackr" width={32} height={32} className="w-8 h-8 rounded-lg" priority />
           <span className="font-display font-semibold text-lg tracking-tight">FlipTrackr</span>
         </Link>
         <div className="bg-surface border border-line rounded-xl shadow-sm p-6">

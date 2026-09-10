@@ -9,6 +9,7 @@ import {
   Percent,
   ShoppingCart,
   Receipt,
+  Upload,
 } from "lucide-react";
 
 const FEATURES = [
@@ -16,6 +17,11 @@ const FEATURES = [
     icon: Layers,
     title: "Break any lot into real inventory",
     body: "Log what you paid — cost, freight, source — then split it into the individual items inside. Cost allocates automatically by retail value.",
+  },
+  {
+    icon: Upload,
+    title: "Import items straight from a spreadsheet",
+    body: "Already tracking items in a CSV or Excel file? Drop it in, map the columns once, and skip the manual entry entirely.",
   },
   {
     icon: DollarSign,
@@ -82,10 +88,6 @@ const INCLUDED = [
 ];
 
 const FAQS = [
-  {
-    q: "Do I have to start with a free trial?",
-    a: "No — FlipTrackr skips the trial step. Subscribe and you're in, tracking real numbers in minutes.",
-  },
   {
     q: "Can I cancel anytime?",
     a: "Yes. Manage or cancel your subscription anytime from the Billing page in your account — no lock-in, no phone call required.",
@@ -197,7 +199,7 @@ export default function LandingPage() {
             No spreadsheets that fall apart the moment you&apos;re moving fast.
           </p>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {FEATURES.map((f) => (
             <div key={f.title} className="bg-surface border border-line rounded-xl shadow-sm p-5">
               <span className="inline-flex w-9 h-9 items-center justify-center rounded-lg bg-accent-soft text-accent mb-3">

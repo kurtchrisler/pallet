@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import type Stripe from "stripe";
 import { getStripe } from "@/lib/stripe";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { addAWeberSubscriber } from "@/lib/aweber";
+import { ACTIVE_STATUSES } from "@/lib/types";
 
 export const runtime = "nodejs";
 
@@ -17,6 +19,12 @@ async function upsertFromSubscription(subscription: Stripe.Subscription) {
 
   const item = subscription.items.data[0];
   const admin = createAdminClient();
+
+  // Read the prior status first so we can tell whether this event is the
+  // moment someone *becomes* a paying subscriber (used below to add them
+  // to the AWeber list exactly once, not on every renewal webhook).
+  const { data: existing } = await admin.from("subscriptions").select("status").eq("user_id", userId).maybeSingle();
+  const wasActive = existing ? ACTIVE_STATUSES.has(existing.status) : false;
 
   const { error } = await admin.from("subscriptions").upsert(
     {
@@ -42,6 +50,17 @@ async function upsertFromSubscription(subscription: Stripe.Subscription) {
       error,
     });
     throw new Error(`Supabase upsert failed: ${error.message}`);
+  }
+
+  const isNowActive = ACTIVE_STATUSES.has(subscription.status);
+  if (isNowActive && !wasActive) {
+    const { data: userRes, error: userError } = await admin.auth.admin.getUserById(userId);
+    if (userError || !userRes?.user?.email) {
+      console.error("Could not look up user for AWeber signup", userId, userError);
+    } else {
+      const businessName = userRes.user.user_metadata?.business_name;
+      await addAWeberSubscriber(userRes.user.email, typeof businessName === "string" ? businessName : undefined);
+    }
   }
 }
 

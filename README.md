@@ -155,6 +155,63 @@ With Stripe still in **Test mode**:
 
 ---
 
+## 9. (Optional) Connect AWeber for your mailing list
+
+When someone becomes a paying subscriber (their Stripe subscription goes
+active — not just when they create an account), they're automatically added
+to an AWeber list. This is one-time setup in AWeber's developer portal, plus
+a run of the SQL migration below.
+
+1. **Run the migration.** Paste `supabase/migrations/0005_add_app_settings.sql`
+   into Supabase's SQL Editor and run it. This adds a small table the app uses
+   to store AWeber's access/refresh tokens, since they rotate over time and a
+   static env var alone isn't durable enough.
+2. **Create an AWeber developer app.** Sign up for a free account at
+   [labs.aweber.com](https://labs.aweber.com), go to **API Apps → Create an
+   App**, and set the redirect URI to exactly:
+   ```
+   urn:ietf:wg:oauth:2.0:oob
+   ```
+   This "out of band" redirect means AWeber shows you the authorization code
+   directly on screen instead of needing a callback server. Grant it the
+   `account.read`, `list.read`, and `subscriber.write` scopes. Save it and
+   copy the **Client ID** and **Client Secret**.
+3. **Authorize once, in your browser.** Visit this URL (with your own client
+   ID swapped in), logged into the AWeber account you want subscribers added
+   to:
+   ```
+   https://auth.aweber.com/oauth2/authorize?response_type=code&client_id=YOUR_CLIENT_ID&redirect_uri=urn:ietf:wg:oauth:2.0:oob&scope=account.read+list.read+subscriber.write
+   ```
+   Click Allow, and AWeber shows you an authorization code — copy it.
+4. **Exchange that code for tokens.** Run this from a terminal (swap in your
+   client ID, client secret, and the code from the last step):
+   ```
+   curl -u "YOUR_CLIENT_ID:YOUR_CLIENT_SECRET" https://auth.aweber.com/oauth2/token -d grant_type=authorization_code -d code=YOUR_CODE -d redirect_uri=urn:ietf:wg:oauth:2.0:oob
+   ```
+   The response includes an `access_token` and a `refresh_token` — you only
+   need the `refresh_token` going forward.
+5. **Find your account ID and list ID.** Using the `access_token` from the
+   last step:
+   ```
+   curl -H "Authorization: Bearer YOUR_ACCESS_TOKEN" https://api.aweber.com/1.0/accounts
+   ```
+   gives you your account ID; then
+   ```
+   curl -H "Authorization: Bearer YOUR_ACCESS_TOKEN" https://api.aweber.com/1.0/accounts/YOUR_ACCOUNT_ID/lists
+   ```
+   lists your mailing lists by name so you can pick the right list ID.
+6. **Add the five env vars to Vercel** and redeploy: `AWEBER_CLIENT_ID`,
+   `AWEBER_CLIENT_SECRET`, `AWEBER_REFRESH_TOKEN` (the one from step 4),
+   `AWEBER_ACCOUNT_ID`, `AWEBER_LIST_ID`.
+
+After that, the app takes care of keeping the access token fresh on its own —
+`AWEBER_REFRESH_TOKEN` is only ever used once, to seed the database; every
+refresh after that updates the database instead. If a subscriber add ever
+fails, it's logged but never blocks checkout or the webhook — a mailing list
+hiccup should never get in the way of somebody paying you.
+
+---
+
 ## Things worth doing before you actually sell access
 
 - **Terms of Service & Privacy Policy.** You're holding other people's business

@@ -163,7 +163,7 @@ export default function LandingPage() {
             Built for resellers who buy in bulk
           </span>
           <h1 className="text-4xl sm:text-5xl font-display font-semibold leading-[1.1] tracking-tight text-balance">
-            Stop guessing what your lots actually cost you
+            Flip Smarter. Scale Faster. Profit More.
           </h1>
           <p className="text-ink-soft mt-5 text-lg text-balance max-w-[560px] mx-auto">
             FlipTrackr turns every pallet, case pack, or bulk buy into real per-item numbers — so you always know

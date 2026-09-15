@@ -11,6 +11,6 @@ export const config = {
      * Match all request paths except static assets and image optimization
      * files, so the session cookie stays fresh everywhere it's needed.
      */
-    "/((?!_next/static|_next/image|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)",
+    "/((?!_next/static|_next/image|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico|mp4|webm|mov)$).*)",
   ],
 };

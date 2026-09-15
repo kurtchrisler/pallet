@@ -169,6 +169,18 @@ export default function LandingPage() {
             FlipTrackr turns every pallet, case pack, or bulk buy into real per-item numbers — so you always know
             your true cost, your real profit, and which suppliers are actually worth buying from again.
           </p>
+          <div className="max-w-[720px] mx-auto mt-8">
+            <video
+              controls
+              preload="metadata"
+              poster="/fliptrackr-demo-poster.jpg"
+              width={1920}
+              height={1080}
+              className="w-full h-auto rounded-xl border border-line shadow-sm"
+            >
+              <source src="/fliptrackr-demo.mp4" type="video/mp4" />
+            </video>
+          </div>
           <div className="flex items-center justify-center gap-3 mt-8">
             <Link
               href="/signup"

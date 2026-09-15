@@ -11,6 +11,7 @@ const PUBLIC_PATHS = [
   "/forgot-password",
   "/reset-password",
   "/auth/callback",
+  "/auth/complete-signup",
 ];
 
 function isPublicPath(pathname: string) {

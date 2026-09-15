@@ -12,7 +12,7 @@ const INCLUDED = [
 
 export default function PricingPage() {
   const priceDisplay = process.env.NEXT_PUBLIC_PLAN_PRICE_DISPLAY || "$19/mo";
-  const planName = process.env.NEXT_PUBLIC_PLAN_NAME || "Pro";
+  const planName = process.env.NEXT_PUBLIC_PLAN_NAME || "Founding Member";
 
   return (
     <div className="min-h-screen bg-paper">

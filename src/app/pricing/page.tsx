@@ -59,6 +59,21 @@ export default function PricingPage() {
           </Link>
         </div>
       </section>
+
+      <footer className="max-w-[1080px] mx-auto px-4 py-8 border-t border-line text-sm text-ink-faint flex flex-wrap gap-4 justify-between">
+        <span>© {new Date().getFullYear()} FlipTrackr</span>
+        <div className="flex gap-4">
+          <Link href="/login" className="hover:text-ink-soft">
+            Log in
+          </Link>
+          <Link href="/privacy" className="hover:text-ink-soft">
+            Privacy Policy
+          </Link>
+          <Link href="/terms" className="hover:text-ink-soft">
+            Terms of Service
+          </Link>
+        </div>
+      </footer>
     </div>
   );
 }

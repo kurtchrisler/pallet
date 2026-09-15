@@ -159,9 +159,6 @@ export default function LandingPage() {
           }}
         />
         <div className="relative max-w-[720px] mx-auto px-4 pt-14 pb-10 text-center">
-          <span className="inline-flex items-center gap-1.5 bg-accent-soft text-accent text-xs font-medium px-3 py-1 rounded-full mb-5">
-            Built for resellers who buy in bulk
-          </span>
           <h1 className="text-4xl sm:text-5xl font-display font-semibold leading-[1.1] tracking-tight text-balance">
             Flip Smarter. Scale Faster. Profit More.
           </h1>
@@ -383,6 +380,12 @@ export default function LandingPage() {
           </Link>
           <Link href="/login" className="hover:text-ink-soft">
             Log in
+          </Link>
+          <Link href="/privacy" className="hover:text-ink-soft">
+            Privacy Policy
+          </Link>
+          <Link href="/terms" className="hover:text-ink-soft">
+            Terms of Service
           </Link>
         </div>
       </footer>

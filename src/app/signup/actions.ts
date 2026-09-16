@@ -5,6 +5,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { encryptSecret } from "@/lib/crypto";
 import { findUserIdByEmail } from "@/lib/signup";
 import { getStripe } from "@/lib/stripe";
+import { readAttributionCookie } from "@/lib/attribution";
 
 function siteUrl() {
   return process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
@@ -50,6 +51,7 @@ export async function startSignup(formData: FormData) {
 
   try {
     const { ciphertext, iv, tag } = encryptSecret(password);
+    const attribution = await readAttributionCookie();
 
     const { data: pending, error: pendingError } = await admin
       .from("pending_signups")
@@ -60,6 +62,10 @@ export async function startSignup(formData: FormData) {
           password_ciphertext: ciphertext,
           password_iv: iv,
           password_tag: tag,
+          utm_source: attribution.utm_source,
+          utm_medium: attribution.utm_medium,
+          utm_campaign: attribution.utm_campaign,
+          referrer_host: attribution.referrer_host,
           created_at: new Date().toISOString(),
         },
         { onConflict: "email" }

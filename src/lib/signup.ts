@@ -53,11 +53,22 @@ export async function completeSignup({
         tag: row.password_tag,
       });
 
+      const userMetadata: Record<string, string> = {};
+      if (row.business_name) userMetadata.business_name = row.business_name;
+      if (row.utm_source) userMetadata.utm_source = row.utm_source;
+      if (row.utm_medium) userMetadata.utm_medium = row.utm_medium;
+      if (row.utm_campaign) userMetadata.utm_campaign = row.utm_campaign;
+      if (row.referrer_host) userMetadata.referrer_host = row.referrer_host;
+
       const { data: created, error } = await admin.auth.admin.createUser({
         email: row.email,
         password,
         email_confirm: true,
-        user_metadata: row.business_name ? { business_name: row.business_name } : undefined,
+        // The handle_new_user() DB trigger copies utm_source/medium/
+        // campaign/referrer_host out of this metadata into a new row's
+        // profiles columns — see migration 0007 — so this is the only
+        // place attribution ever needs to be set.
+        user_metadata: Object.keys(userMetadata).length > 0 ? userMetadata : undefined,
       });
 
       // Clear the pending row now regardless of outcome — either we just

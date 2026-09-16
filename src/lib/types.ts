@@ -100,3 +100,5 @@ export const EXPENSE_CATS = [
 ];
 
 export const ACTIVE_STATUSES = new Set(["active", "trialing"]);
+
+export const SUPPORT_EMAIL = "support@fliptrackr.app";

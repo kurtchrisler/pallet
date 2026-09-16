@@ -72,6 +72,9 @@ export default function PricingPage() {
           <Link href="/terms" className="hover:text-ink-soft">
             Terms of Service
           </Link>
+          <Link href="/contact" className="hover:text-ink-soft">
+            Contact
+          </Link>
         </div>
       </footer>
     </div>

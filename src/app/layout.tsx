@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import "@fontsource/inter/400.css";
 import "@fontsource/inter/500.css";
 import "@fontsource/inter/600.css";
@@ -19,6 +20,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body>
+        {/* Google tag (gtag.js) — loaded via next/script rather than a raw
+            <head> snippet, since Next.js manages <head> itself; this is
+            the framework's recommended way to get the same tracking
+            behavior (loads on every page, not just this one). */}
+        <Script src="https://www.googletagmanager.com/gtag/js?id=G-ZHJ8Y70KCJ" strategy="afterInteractive" />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-ZHJ8Y70KCJ');
+          `}
+        </Script>
         <AttributionCapture />
         {children}
       </body>

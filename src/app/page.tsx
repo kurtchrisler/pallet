@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
+import type { LucideIcon } from "lucide-react";
 import {
   Layers,
   DollarSign,
@@ -10,6 +11,14 @@ import {
   ShoppingCart,
   Receipt,
   Upload,
+  CheckCircle2,
+  XCircle,
+  ArrowRight,
+  Sparkles,
+  ListChecks,
+  Tag,
+  HelpCircle,
+  ArrowRightLeft,
 } from "lucide-react";
 
 const FEATURES = [
@@ -78,6 +87,19 @@ const STEPS = [
   },
 ];
 
+const BEFORE_AFTER = {
+  before: [
+    "Eyeballing what each item in a lot actually cost",
+    "Finding out your real margin at tax time — if ever",
+    "No way to tell which supplier is actually worth buying from again",
+  ],
+  after: [
+    "Cost allocated to every item automatically, the moment you log the lot",
+    "Real profit updates the second you mark something sold",
+    "Suppliers ranked by realized profit, not just how good the deal looked",
+  ],
+};
+
 const INCLUDED = [
   "Unlimited lots, items, sales & expenses",
   "Automatic per-item cost allocation, with manual override",
@@ -110,9 +132,18 @@ const FAQS = [
   },
 ];
 
+function Eyebrow({ icon: Icon, children }: { icon: LucideIcon; children: React.ReactNode }) {
+  return (
+    <span className="inline-flex items-center gap-1.5 bg-accent-soft text-accent text-xs font-semibold px-3 py-1.5 rounded-full mb-4">
+      <Icon size={14} strokeWidth={2.5} />
+      {children}
+    </span>
+  );
+}
+
 function ScreenshotFrame({ src, alt, width, height }: { src: string; alt: string; width: number; height: number }) {
   return (
-    <div className="bg-surface border border-line rounded-xl shadow-sm overflow-hidden">
+    <div className="bg-surface border border-line rounded-2xl shadow-lg overflow-hidden">
       <div className="flex items-center gap-1.5 px-3 py-2.5 border-b border-line bg-surface-2">
         <span className="w-2.5 h-2.5 rounded-full bg-alert/50" />
         <span className="w-2.5 h-2.5 rounded-full bg-amber/50" />
@@ -129,26 +160,28 @@ export default function LandingPage() {
 
   return (
     <div className="min-h-screen bg-paper">
-      <header className="max-w-[1080px] mx-auto px-4 py-5 flex items-center justify-between">
-        <div className="flex items-center gap-2.5">
-          <Image src="/logo.png" alt="FlipTrackr" width={32} height={32} className="w-8 h-8 rounded-lg" priority />
-          <span className="font-display font-semibold text-lg tracking-tight">FlipTrackr</span>
-        </div>
-        <nav className="flex items-center gap-5 text-sm">
-          <Link href="/pricing" className="text-ink-soft hover:text-ink hidden sm:inline">
-            Pricing
-          </Link>
-          <Link href="/login" className="text-ink-soft hover:text-ink">
-            Log in
-          </Link>
-          <Link
-            href="/signup"
-            className="bg-accent text-accent-ink font-semibold rounded-lg px-4 py-2 shadow-sm hover:brightness-[1.08]"
-          >
-            Get started
-          </Link>
-        </nav>
-      </header>
+      <div className="sticky top-0 z-20 backdrop-blur-md bg-paper/85 border-b border-line/60">
+        <header className="max-w-[1080px] mx-auto px-4 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-2.5">
+            <Image src="/logo.png" alt="FlipTrackr" width={32} height={32} className="w-8 h-8 rounded-lg" priority />
+            <span className="font-display font-semibold text-lg tracking-tight">FlipTrackr</span>
+          </div>
+          <nav className="flex items-center gap-5 text-sm">
+            <Link href="/pricing" className="text-ink-soft hover:text-ink hidden sm:inline">
+              Pricing
+            </Link>
+            <Link href="/login" className="text-ink-soft hover:text-ink">
+              Log in
+            </Link>
+            <Link
+              href="/signup"
+              className="bg-accent text-accent-ink font-semibold rounded-full px-4 py-2 shadow-sm hover:brightness-[1.08] transition"
+            >
+              Get started
+            </Link>
+          </nav>
+        </header>
+      </div>
 
       {/* Hero */}
       <section className="relative overflow-hidden">
@@ -159,13 +192,41 @@ export default function LandingPage() {
           }}
         />
         <div className="relative max-w-[720px] mx-auto px-4 pt-14 pb-10 text-center">
-          <h1 className="text-4xl sm:text-5xl font-display font-semibold leading-[1.1] tracking-tight text-balance">
-            Flip Smarter. Scale Faster. Profit More.
+          <h1 className="text-4xl sm:text-6xl font-display font-semibold leading-[1.05] tracking-tight text-balance">
+            Flip Smarter. Scale Faster.{" "}
+            <br className="hidden sm:block" />
+            <span className="text-accent">Profit More.</span>
           </h1>
           <p className="text-ink-soft mt-5 text-lg text-balance max-w-[560px] mx-auto">
             FlipTrackr turns every pallet, case pack, or bulk buy into real per-item numbers — so you always know
             your true cost, your real profit, and which suppliers are actually worth buying from again.
           </p>
+          <div className="flex items-center justify-center gap-3 mt-8">
+            <Link
+              href="/signup"
+              className="inline-flex items-center gap-1.5 bg-accent text-accent-ink font-semibold rounded-full px-5 py-3 text-sm shadow-sm hover:brightness-[1.08] transition"
+            >
+              Subscribe now
+              <ArrowRight size={16} />
+            </Link>
+            <Link
+              href="/pricing"
+              className="bg-surface border border-line-strong rounded-full px-5 py-3 text-sm shadow-sm hover:border-ink-soft transition"
+            >
+              See pricing
+            </Link>
+          </div>
+          <div className="flex flex-wrap items-center justify-center gap-2.5 mt-6">
+            {["Cancel anytime", "Your data stays private", "Works on your phone"].map((t) => (
+              <span
+                key={t}
+                className="inline-flex items-center gap-1.5 border border-line rounded-full px-3 py-1 text-xs text-ink-soft"
+              >
+                <CheckCircle2 size={13} className="text-good" />
+                {t}
+              </span>
+            ))}
+          </div>
           <div className="max-w-[720px] mx-auto mt-8">
             <video
               controls
@@ -173,24 +234,10 @@ export default function LandingPage() {
               poster="/fliptrackr-demo-poster.jpg"
               width={1920}
               height={1080}
-              className="w-full h-auto rounded-xl border border-line shadow-sm"
+              className="w-full h-auto rounded-2xl border border-line shadow-lg"
             >
               <source src="/fliptrackr-demo.mp4" type="video/mp4" />
             </video>
-          </div>
-          <div className="flex items-center justify-center gap-3 mt-8">
-            <Link
-              href="/signup"
-              className="bg-accent text-accent-ink font-semibold rounded-lg px-5 py-3 text-sm shadow-sm hover:brightness-[1.08]"
-            >
-              Subscribe now
-            </Link>
-            <Link
-              href="/pricing"
-              className="bg-surface border border-line-strong rounded-lg px-5 py-3 text-sm shadow-sm hover:border-ink-soft"
-            >
-              See pricing
-            </Link>
           </div>
         </div>
         <div className="relative max-w-[980px] mx-auto px-4 pb-16">
@@ -201,6 +248,7 @@ export default function LandingPage() {
       {/* Feature grid */}
       <section className="max-w-[1080px] mx-auto px-4 pb-20">
         <div className="text-center max-w-[560px] mx-auto mb-10">
+          <Eyebrow icon={Sparkles}>Features</Eyebrow>
           <h2 className="text-2xl sm:text-3xl font-display font-semibold tracking-tight text-balance">
             Everything you need to know your numbers
           </h2>
@@ -210,7 +258,10 @@ export default function LandingPage() {
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {FEATURES.map((f) => (
-            <div key={f.title} className="bg-surface border border-line rounded-xl shadow-sm p-5">
+            <div
+              key={f.title}
+              className="bg-surface border border-line rounded-xl shadow-sm p-5 transition hover:-translate-y-0.5 hover:shadow-md"
+            >
               <span className="inline-flex w-9 h-9 items-center justify-center rounded-lg bg-accent-soft text-accent mb-3">
                 <f.icon size={18} strokeWidth={2} />
               </span>
@@ -224,15 +275,18 @@ export default function LandingPage() {
       {/* How it works */}
       <section className="bg-surface border-y border-line">
         <div className="max-w-[1080px] mx-auto px-4 py-16">
-          <div className="text-center max-w-[560px] mx-auto mb-10">
+          <div className="text-center max-w-[560px] mx-auto mb-12">
+            <Eyebrow icon={ListChecks}>How it works</Eyebrow>
             <h2 className="text-2xl sm:text-3xl font-display font-semibold tracking-tight text-balance">
               From lot to profit in three steps
             </h2>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
             {STEPS.map((s) => (
-              <div key={s.n}>
-                <div className="mono text-sm font-semibold text-accent mb-2">{s.n}</div>
+              <div key={s.n} className="text-center sm:text-left">
+                <div className="w-12 h-12 rounded-full bg-accent text-accent-ink flex items-center justify-center font-display font-bold text-lg shadow-sm mb-4 mx-auto sm:mx-0">
+                  {parseInt(s.n, 10)}
+                </div>
                 <h3 className="font-display font-semibold text-lg mb-1.5 tracking-tight">{s.title}</h3>
                 <p className="text-sm text-ink-soft">{s.body}</p>
               </div>
@@ -241,86 +295,131 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Deep dive 1 — dashboard */}
+      {/* Before / after */}
       <section className="max-w-[1080px] mx-auto px-4 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-          <div>
-            <span className="inline-flex items-center gap-1.5 bg-info-soft text-info text-xs font-medium px-3 py-1 rounded-full mb-4">
-              Dashboard
-            </span>
-            <h2 className="text-2xl font-display font-semibold tracking-tight mb-3 text-balance">
-              Your business, at a glance
-            </h2>
-            <p className="text-ink-soft mb-4">
-              Total invested, revenue, net profit, inventory on hand, sell-through, and average margin — six numbers
-              that actually tell you how the business is doing, updated the moment you log something.
-            </p>
-            <p className="text-ink-soft">
-              Pick a date range — last 7, 15, 30, or 60 days, or all time — and every number scopes to it instantly.
-            </p>
+        <div className="text-center max-w-[640px] mx-auto mb-10">
+          <Eyebrow icon={ArrowRightLeft}>Why it&apos;s different</Eyebrow>
+          <h2 className="text-2xl sm:text-3xl font-display font-semibold tracking-tight text-balance">
+            Spreadsheets guess. <span className="highlight-mark">FlipTrackr knows.</span>
+          </h2>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 max-w-[880px] mx-auto">
+          <div className="bg-surface border border-line rounded-xl p-6">
+            <div className="text-xs font-semibold uppercase tracking-wider text-ink-faint mb-4">
+              Without a real system
+            </div>
+            <ul className="flex flex-col gap-3">
+              {BEFORE_AFTER.before.map((t) => (
+                <li key={t} className="flex items-start gap-2.5 text-sm text-ink-soft">
+                  <XCircle size={18} className="text-ink-faint mt-0.5 shrink-0" />
+                  <span>{t}</span>
+                </li>
+              ))}
+            </ul>
           </div>
-          <ScreenshotFrame src="/screenshot-dashboard.png" alt="FlipTrackr dashboard KPI tiles and recent items table" width={1440} height={1287} />
+          <div className="bg-surface border-2 border-accent/30 rounded-xl p-6 shadow-[0_0_40px_-16px_var(--accent)]">
+            <div className="text-xs font-semibold uppercase tracking-wider text-accent mb-4">With FlipTrackr</div>
+            <ul className="flex flex-col gap-3">
+              {BEFORE_AFTER.after.map((t) => (
+                <li key={t} className="flex items-start gap-2.5 text-sm">
+                  <CheckCircle2 size={18} className="text-accent mt-0.5 shrink-0" />
+                  <span>{t}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* Deep dive 1 — dashboard */}
+      <section className="bg-surface border-y border-line">
+        <div className="max-w-[1080px] mx-auto px-4 py-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+            <div>
+              <span className="inline-flex items-center gap-1.5 bg-info-soft text-info text-xs font-semibold px-3 py-1.5 rounded-full mb-4">
+                Dashboard
+              </span>
+              <h2 className="text-2xl font-display font-semibold tracking-tight mb-3 text-balance">
+                Your business, at a glance
+              </h2>
+              <p className="text-ink-soft mb-4">
+                Total invested, revenue, net profit, inventory on hand, sell-through, and average margin — six numbers
+                that actually tell you how the business is doing, updated the moment you log something.
+              </p>
+              <p className="text-ink-soft">
+                Pick a date range — last 7, 15, 30, or 60 days, or all time — and every number scopes to it instantly.
+              </p>
+            </div>
+            <ScreenshotFrame src="/screenshot-dashboard.png" alt="FlipTrackr dashboard KPI tiles and recent items table" width={1440} height={1287} />
+          </div>
         </div>
       </section>
 
       {/* Deep dive 2 — items / cost allocation */}
-      <section className="bg-surface border-y border-line">
-        <div className="max-w-[1080px] mx-auto px-4 py-16">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-            <div className="md:order-2">
-              <span className="inline-flex items-center gap-1.5 bg-violet-soft text-violet text-xs font-medium px-3 py-1 rounded-full mb-4">
-                Items
-              </span>
-              <h2 className="text-2xl font-display font-semibold tracking-tight mb-3 text-balance">
-                Every item gets a real cost, automatically
-              </h2>
-              <p className="text-ink-soft mb-4">
-                Pay one price for a lot, and FlipTrackr splits it across everything inside by retail value — a
-                higher-value item carries a bigger share of the cost, instead of every item pretending to cost the
-                same.
-              </p>
-              <p className="text-ink-soft">
-                Know the real number on one item? Override it directly, and the rest of the lot rebalances around
-                it automatically — the costs always still add up to what you actually paid.
-              </p>
-            </div>
-            <div className="md:order-1">
-              <ScreenshotFrame src="/screenshot-items.png" alt="FlipTrackr items table showing allocated cost per item, including a manually overridden cost" width={1440} height={660} />
-            </div>
+      <section className="max-w-[1080px] mx-auto px-4 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+          <div className="md:order-2">
+            <span className="inline-flex items-center gap-1.5 bg-violet-soft text-violet text-xs font-semibold px-3 py-1.5 rounded-full mb-4">
+              Items
+            </span>
+            <h2 className="text-2xl font-display font-semibold tracking-tight mb-3 text-balance">
+              Every item gets a real cost, automatically
+            </h2>
+            <p className="text-ink-soft mb-4">
+              Pay one price for a lot, and FlipTrackr splits it across everything inside by retail value — a
+              higher-value item carries a bigger share of the cost, instead of every item pretending to cost the
+              same.
+            </p>
+            <p className="text-ink-soft">
+              Know the real number on one item? Override it directly, and the rest of the lot rebalances around
+              it automatically — the costs always still add up to what you actually paid.
+            </p>
+          </div>
+          <div className="md:order-1">
+            <ScreenshotFrame src="/screenshot-items.png" alt="FlipTrackr items table showing allocated cost per item, including a manually overridden cost" width={1440} height={660} />
           </div>
         </div>
       </section>
 
       {/* Deep dive 3 — sales / profit */}
-      <section className="max-w-[1080px] mx-auto px-4 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-          <div>
-            <span className="inline-flex items-center gap-1.5 bg-good-soft text-good text-xs font-medium px-3 py-1 rounded-full mb-4">
-              Sales
-            </span>
-            <h2 className="text-2xl font-display font-semibold tracking-tight mb-3 text-balance">
-              Know exactly what you made — on every sale
-            </h2>
-            <p className="text-ink-soft mb-4">
-              Log what it sold for, who bought it, and where — FlipTrackr does the math against that item&apos;s
-              allocated cost and shows you the real profit, right in the row.
-            </p>
-            <p className="text-ink-soft">
-              No more finding out at tax time that a &quot;good deal&quot; item barely broke even.
-            </p>
+      <section className="bg-surface border-y border-line">
+        <div className="max-w-[1080px] mx-auto px-4 py-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+            <div>
+              <span className="inline-flex items-center gap-1.5 bg-good-soft text-good text-xs font-semibold px-3 py-1.5 rounded-full mb-4">
+                Sales
+              </span>
+              <h2 className="text-2xl font-display font-semibold tracking-tight mb-3 text-balance">
+                Know exactly what you made — on every sale
+              </h2>
+              <p className="text-ink-soft mb-4">
+                Log what it sold for, who bought it, and where — FlipTrackr does the math against that item&apos;s
+                allocated cost and shows you the real profit, right in the row.
+              </p>
+              <p className="text-ink-soft">
+                No more finding out at tax time that a &quot;good deal&quot; item barely broke even.
+              </p>
+            </div>
+            <ScreenshotFrame src="/screenshot-sales.png" alt="FlipTrackr sale history table showing price and profit per sale" width={1440} height={380} />
           </div>
-          <ScreenshotFrame src="/screenshot-sales.png" alt="FlipTrackr sale history table showing price and profit per sale" width={1440} height={380} />
         </div>
       </section>
 
       {/* Pricing */}
-      <section className="bg-surface border-y border-line">
-        <div className="max-w-md mx-auto px-4 py-16">
+      <section className="relative overflow-hidden">
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background: "radial-gradient(ellipse 70% 60% at 50% 0%, var(--accent-soft), transparent 70%)",
+          }}
+        />
+        <div className="relative max-w-md mx-auto px-4 py-20">
           <div className="text-center mb-8">
+            <Eyebrow icon={Tag}>Pricing</Eyebrow>
             <h2 className="text-2xl font-display font-semibold tracking-tight">Simple pricing</h2>
             <p className="text-ink-soft mt-2 text-sm">One plan. Everything included. Cancel anytime.</p>
           </div>
-          <div className="bg-paper border border-line rounded-xl shadow-sm p-6">
+          <div className="bg-surface border border-accent/20 rounded-2xl shadow-[0_20px_60px_-24px_var(--accent)] p-6">
             <div className="text-xs font-medium uppercase tracking-wider text-accent">{planName}</div>
             <div className="mono text-4xl font-semibold mt-1 tracking-tight">{priceDisplay}</div>
             <ul className="mt-5 flex flex-col gap-2.5">
@@ -333,9 +432,10 @@ export default function LandingPage() {
             </ul>
             <Link
               href="/signup"
-              className="mt-6 block text-center bg-accent text-accent-ink font-semibold rounded-lg px-4 py-2.5 text-sm shadow-sm hover:brightness-[1.08]"
+              className="mt-6 inline-flex items-center justify-center gap-1.5 w-full text-center bg-accent text-accent-ink font-semibold rounded-full px-4 py-2.5 text-sm shadow-sm hover:brightness-[1.08] transition"
             >
               Subscribe now
+              <ArrowRight size={16} />
             </Link>
           </div>
         </div>
@@ -343,12 +443,13 @@ export default function LandingPage() {
 
       {/* FAQ */}
       <section className="max-w-[720px] mx-auto px-4 py-16">
-        <h2 className="text-2xl font-display font-semibold tracking-tight text-center mb-8">
-          Questions people ask
-        </h2>
+        <div className="text-center mb-8">
+          <Eyebrow icon={HelpCircle}>FAQ</Eyebrow>
+          <h2 className="text-2xl font-display font-semibold tracking-tight">Questions people ask</h2>
+        </div>
         <div className="flex flex-col gap-3">
           {FAQS.map((f) => (
-            <div key={f.q} className="bg-surface border border-line rounded-xl shadow-sm p-5">
+            <div key={f.q} className="bg-surface border border-line rounded-xl shadow-sm p-5 transition hover:shadow-md">
               <h3 className="font-display font-semibold text-[0.95rem] mb-1.5 tracking-tight">{f.q}</h3>
               <p className="text-sm text-ink-soft">{f.a}</p>
             </div>
@@ -357,18 +458,30 @@ export default function LandingPage() {
       </section>
 
       {/* Final CTA */}
-      <section className="max-w-[720px] mx-auto px-4 pb-20 text-center">
-        <div className="bg-surface border border-line rounded-xl shadow-sm p-8">
-          <h2 className="text-xl font-display font-semibold mb-2 tracking-tight">Ready to see your real numbers?</h2>
-          <p className="text-sm text-ink-soft mb-5">
-            Create your account and subscribe — you&apos;ll be tracking real numbers in minutes.
-          </p>
-          <Link
-            href="/signup"
-            className="bg-accent text-accent-ink font-semibold rounded-lg px-5 py-3 text-sm shadow-sm inline-block hover:brightness-[1.08]"
-          >
-            Get started
-          </Link>
+      <section className="relative overflow-hidden">
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background: "radial-gradient(ellipse 70% 100% at 50% 100%, var(--accent-soft), transparent 70%)",
+          }}
+        />
+        <div className="relative max-w-[720px] mx-auto px-4 pb-20 text-center">
+          <div className="bg-surface border border-line rounded-2xl shadow-lg p-10">
+            <h2 className="text-xl sm:text-2xl font-display font-semibold mb-2 tracking-tight">
+              Ready to see <span className="highlight-mark">your real numbers</span>?
+            </h2>
+            <p className="text-sm text-ink-soft mb-5">
+              Create your account and subscribe — you&apos;ll be tracking real numbers in minutes.
+            </p>
+            <Link
+              href="/signup"
+              className="inline-flex items-center gap-1.5 bg-accent text-accent-ink font-semibold rounded-full px-5 py-3 text-sm shadow-sm hover:brightness-[1.08] transition"
+            >
+              Get started
+              <ArrowRight size={16} />
+            </Link>
+            <p className="text-xs text-ink-faint mt-4">Cancel anytime from your account — no phone calls required.</p>
+          </div>
         </div>
       </section>
 

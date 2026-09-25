@@ -178,3 +178,14 @@ a:focus-visible {
 ::placeholder {
   color: var(--ink-faint);
 }
+
+/* Highlighter-marker effect for emphasized headline phrases — a soft color
+   band sitting behind the lower half of the text, rather than a full
+   background fill. Uses the brand accent tint so it stays on-palette. */
+.highlight-mark {
+  background-image: linear-gradient(var(--accent-soft), var(--accent-soft));
+  background-repeat: no-repeat;
+  background-size: 100% 0.42em;
+  background-position: 0 88%;
+  padding: 0 0.15em;
+}

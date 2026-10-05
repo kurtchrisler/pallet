@@ -8,7 +8,7 @@ export default async function SignupPage({
   searchParams: Promise<{ error?: string; checkout?: string }>;
 }) {
   const { error, checkout } = await searchParams;
-  const priceDisplay = process.env.NEXT_PUBLIC_PLAN_PRICE_DISPLAY || "$19/mo";
+  const priceDisplay = process.env.NEXT_PUBLIC_PLAN_PRICE_DISPLAY || "$27/yr";
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-paper px-4 py-12">

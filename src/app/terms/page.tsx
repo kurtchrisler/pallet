@@ -57,8 +57,9 @@ export default function TermsPage() {
           <div>
             <h2 className="text-lg font-display font-semibold text-ink mb-2">3. Subscription and billing</h2>
             <p className="mb-3">
-              FlipTrackr is billed as a recurring monthly subscription through Stripe. By subscribing, you
-              authorize us to charge your payment method on a recurring basis until you cancel.
+              FlipTrackr is billed as a recurring subscription through Stripe, at the interval shown
+              when you sign up. By subscribing, you authorize us to charge your payment method on a
+              recurring basis until you cancel.
             </p>
             <p>
               You can cancel anytime from the Billing page in your account, which takes you to Stripe&apos;s

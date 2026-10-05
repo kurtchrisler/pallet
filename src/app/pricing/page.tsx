@@ -11,7 +11,7 @@ const INCLUDED = [
 ];
 
 export default function PricingPage() {
-  const priceDisplay = process.env.NEXT_PUBLIC_PLAN_PRICE_DISPLAY || "$19/mo";
+  const priceDisplay = process.env.NEXT_PUBLIC_PLAN_PRICE_DISPLAY || "$27/yr";
   const planName = process.env.NEXT_PUBLIC_PLAN_NAME || "Founding Member";
 
   return (

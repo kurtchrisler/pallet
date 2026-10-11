@@ -1,5 +1,5 @@
 import { getAppContext } from "@/lib/app-context";
-import { submitItem, deleteItem, bulkDeleteItems, toggleListed } from "./actions";
+import { submitItem, deleteItem, bulkDeleteItems, bulkSetListed, toggleListed } from "./actions";
 import { allocatedCost, daysSince, fmtMoney } from "@/lib/calc";
 import { CATEGORIES, CONDITIONS, type Item, type Pallet } from "@/lib/types";
 import { AgingBadge, Card, EmptyState, Field, Pill, SectionTitle, TableWrap } from "@/components/ui";
@@ -21,6 +21,8 @@ export default async function ItemsPage({
     skipped?: string;
     deleted?: string;
     deleteSkipped?: string;
+    listedUpdated?: string;
+    listedTo?: string;
   }>;
 }) {
   const { supabase } = await getAppContext();
@@ -35,6 +37,8 @@ export default async function ItemsPage({
     skipped,
     deleted,
     deleteSkipped,
+    listedUpdated,
+    listedTo,
   } = await searchParams;
 
   const [{ data: pallets }, { data: items }] = await Promise.all([
@@ -90,6 +94,11 @@ export default async function ItemsPage({
           Deleted {deleted} item{deleted === "1" ? "" : "s"}.
           {deleteSkipped &&
             ` Skipped ${deleteSkipped} item${deleteSkipped === "1" ? "" : "s"} with a sale record — delete the sale first to remove ${deleteSkipped === "1" ? "it" : "those"}.`}
+        </div>
+      )}
+      {listedUpdated && (
+        <div className="mb-4 text-sm bg-good-soft text-good rounded-lg px-3 py-2">
+          Marked {listedUpdated} item{listedUpdated === "1" ? "" : "s"} as {listedTo === "1" ? "listed" : "not listed"}.
         </div>
       )}
 
@@ -209,7 +218,15 @@ export default async function ItemsPage({
       <SectionTitle title="Items" hint={`${filtered.length} shown`} />
       {filtered.length ? (
         <form action={bulkDeleteItems}>
-          <BulkActionsBar checkboxName="ids" itemLabel="item" />
+          <BulkActionsBar
+            checkboxName="ids"
+            itemLabel="item"
+            actions={[
+              { label: "Mark listed", tone: "good", formAction: bulkSetListed.bind(null, true) },
+              { label: "Mark not listed", formAction: bulkSetListed.bind(null, false) },
+              { label: "Delete selected", tone: "danger", confirm: "Delete {count} selected {label}? This can't be undone." },
+            ]}
+          />
           <TableWrap>
             <table className="w-full text-sm border-collapse min-w-[760px]">
               <thead>

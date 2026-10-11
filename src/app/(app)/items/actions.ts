@@ -106,3 +106,29 @@ export async function toggleListed(id: string, listed: boolean, formData: FormDa
   revalidatePath("/items");
   redirect("/items");
 }
+
+/** Bulk equivalent of toggleListed — sets `listed` for every checked item
+ * in one update instead of opening each one. `listed` is a bound argument
+ * (BulkActionsBar renders two buttons, each via
+ * `bulkSetListed.bind(null, true | false)`) for the same reason deleteItem
+ * binds `id`: both buttons live in the same shared <form> as the bulk
+ * checkboxes, so a hidden field can't carry a per-button value. */
+export async function bulkSetListed(listed: boolean, formData: FormData) {
+  const { supabase } = await getAppContext();
+  const ids = formData
+    .getAll("ids")
+    .map((v) => String(v))
+    .filter(Boolean);
+
+  if (!ids.length) {
+    redirect(
+      "/items?error=" + encodeURIComponent(`Select at least one item to mark ${listed ? "listed" : "not listed"}.`)
+    );
+  }
+
+  await supabase.from("items").update({ listed }).in("id", ids);
+  revalidatePath("/items");
+
+  const params = new URLSearchParams({ listedUpdated: String(ids.length), listedTo: listed ? "1" : "0" });
+  redirect(`/items?${params.toString()}`);
+}

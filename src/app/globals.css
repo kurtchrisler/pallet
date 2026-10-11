@@ -147,7 +147,7 @@ h3 {
   font-variant-numeric: tabular-nums;
 }
 
-input,
+input:not([type="checkbox"]):not([type="radio"]),
 select,
 textarea {
   font-family: inherit;
@@ -161,11 +161,29 @@ textarea {
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-input:focus,
+input:not([type="checkbox"]):not([type="radio"]):focus,
 select:focus,
 textarea:focus {
   border-color: var(--accent);
   box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+/* Checkboxes/radios opt out of the text-input styling above — the border,
+   background, border-radius, and especially `width: 100%` it sets were
+   fighting each browser's native checkbox widget in a different way.
+   Firefox in particular honors author `width`/`background`/`border` on a
+   checkbox much more literally than Chrome does, which stretched every
+   checkbox to fill its container and left the native checkmark with
+   nothing sane to render into — effectively invisible. Sizing it
+   explicitly and leaving the rest to `accent-color` renders consistently
+   (and still on-brand) in every browser. */
+input[type="checkbox"],
+input[type="radio"] {
+  width: 1rem;
+  height: 1rem;
+  flex: 0 0 auto;
+  accent-color: var(--accent);
+  cursor: pointer;
 }
 
 button:focus-visible,

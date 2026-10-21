@@ -92,14 +92,16 @@ export default async function PalletsPage({
       <SectionTitle title="All lots" hint={`${palletRows.length} total`} />
       {palletRows.length ? (
         <TableWrap>
-          <table className="w-full text-sm border-collapse min-w-[760px]">
+          <table className="w-full text-sm border-collapse min-w-[960px]">
             <thead>
               <tr className="bg-surface-2 text-left text-[0.7rem] font-medium text-ink-soft">
                 <th className="px-2.5 py-2">Source</th>
                 <th className="px-2.5 py-2">Date</th>
                 <th className="px-2.5 py-2 text-right">Cost+Freight</th>
                 <th className="px-2.5 py-2 text-right">Items</th>
+                <th className="px-2.5 py-2 text-right">Total MSRP</th>
                 <th className="px-2.5 py-2 text-right">Sold</th>
+                <th className="px-2.5 py-2 text-right">Total Sales</th>
                 <th className="px-2.5 py-2 text-right">Current Profit</th>
                 <th className="px-2.5 py-2 text-right">Net Profit</th>
                 <th className="px-2.5 py-2" />
@@ -109,6 +111,7 @@ export default async function PalletsPage({
               {palletRows.map((p) => {
                 const its = itemsByPallet.get(p.id) ?? [];
                 const sold = its.filter((i) => i.status === "sold");
+                const totalMsrp = its.reduce((s, i) => s + (Number(i.retail_value) || 0), 0);
                 const profit = sold.reduce((s, i) => {
                   const sale = saleByItem.get(i.id);
                   return s + (sale ? Number(sale.price) - (costByItem.get(i.id) ?? 0) : 0);
@@ -127,7 +130,9 @@ export default async function PalletsPage({
                     <td className="px-2.5 py-2 mono">{fmtDate(p.purchase_date)}</td>
                     <td className="px-2.5 py-2 text-right mono">{fmtMoney(palletCostBasis(p))}</td>
                     <td className="px-2.5 py-2 text-right">{its.length}</td>
+                    <td className="px-2.5 py-2 text-right mono">{its.length ? fmtMoney(totalMsrp) : "—"}</td>
                     <td className="px-2.5 py-2 text-right">{sold.length}</td>
+                    <td className="px-2.5 py-2 text-right mono">{sold.length ? fmtMoney(revenue) : "—"}</td>
                     <td className={`px-2.5 py-2 text-right mono ${profit >= 0 ? "text-good" : "text-alert"}`}>
                       {sold.length ? fmtMoney(profit) : "—"}
                     </td>

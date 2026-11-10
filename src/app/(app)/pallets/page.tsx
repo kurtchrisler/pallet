@@ -141,6 +141,9 @@ export default async function PalletsPage({
                     </td>
                     <td className="px-2.5 py-2">
                       <div className="flex gap-1.5">
+                        <a href={`/scan?pallet=${p.id}`} className="rounded-lg border border-line-strong px-2.5 py-1.5 text-[0.78rem] shadow-sm hover:border-ink-soft">
+                          Scan
+                        </a>
                         <a href={`/pallets?import=${p.id}`} className="rounded-lg border border-line-strong px-2.5 py-1.5 text-[0.78rem] shadow-sm hover:border-ink-soft">
                           Import
                         </a>

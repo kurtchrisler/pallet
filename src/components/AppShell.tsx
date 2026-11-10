@@ -5,12 +5,13 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { signOut } from "@/app/auth/actions";
-import { LayoutGrid, Layers, Box, ShoppingCart, Receipt, CreditCard, Menu, X, LogOut } from "lucide-react";
+import { LayoutGrid, Layers, Box, ShoppingCart, Receipt, CreditCard, Menu, X, LogOut, ScanBarcode } from "lucide-react";
 
 const TABS = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutGrid },
   { href: "/pallets", label: "Lots", icon: Layers },
   { href: "/items", label: "Items", icon: Box },
+  { href: "/scan", label: "Scan", icon: ScanBarcode },
   { href: "/sales", label: "Sales", icon: ShoppingCart },
   { href: "/expenses", label: "Expenses", icon: Receipt },
 ];

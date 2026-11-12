@@ -58,6 +58,8 @@ export function ScanIntake({
   const [cameraOn, setCameraOn] = useState(false);
   const [cameraError, setCameraError] = useState("");
   const [paused, setPaused] = useState(false);
+  const [torchOn, setTorchOn] = useState(false);
+  const [torchAvailable, setTorchAvailable] = useState(false);
 
   const [upc, setUpc] = useState("");
   const [manualUpc, setManualUpc] = useState("");
@@ -87,6 +89,8 @@ export function ScanIntake({
     controlsRef.current = null;
     setCameraOn(false);
     setPaused(false);
+    setTorchOn(false);
+    setTorchAvailable(false);
   }, [clearResumeTimer]);
 
   useEffect(() => {
@@ -136,9 +140,31 @@ export function ScanIntake({
       BarcodeFormat.EAN_13,
       BarcodeFormat.EAN_8,
     ]);
+    // TRY_HARDER makes each frame's decode attempt more thorough (slower
+    // per-frame, but far more likely to catch a real-world barcode that
+    // isn't perfectly framed/lit) — worth the cost for a scan-while-you-
+    // unload workflow where phones are rarely held perfectly steady.
+    hints.set(DecodeHintType.TRY_HARDER, true);
     const reader = new BrowserMultiFormatReader(hints);
+    // Letting the browser pick its own default camera resolution tends to
+    // land on something low enough (often 640x480) that a UPC's fine bars
+    // never resolve, and the default stream also rarely enables continuous
+    // autofocus — the camera opens fine but just never locks onto
+    // anything close-up. Requesting a higher resolution and continuous
+    // focus explicitly fixes both.
+    const constraints: MediaStreamConstraints = {
+      video: {
+        facingMode: { ideal: "environment" },
+        width: { ideal: 1920 },
+        height: { ideal: 1080 },
+        // @ts-expect-error -- focusMode/advanced aren't in the standard
+        // MediaTrackConstraints TS lib yet, but real browsers that support
+        // continuous autofocus accept it; unsupported browsers just ignore it.
+        advanced: [{ focusMode: "continuous" }],
+      },
+    };
     try {
-      const controls = await reader.decodeFromVideoDevice(undefined, videoRef.current ?? undefined, (result, err) => {
+      const controls = await reader.decodeFromConstraints(constraints, videoRef.current ?? undefined, (result, err) => {
         if (result) {
           handleDecode(result.getText());
         } else if (err && !(err instanceof NotFoundException)) {
@@ -148,10 +174,32 @@ export function ScanIntake({
       });
       controlsRef.current = controls;
       setCameraOn(true);
+
+      try {
+        const caps = controls.streamVideoCapabilitiesGet?.((track) => [track]) as
+          | (MediaTrackCapabilities & { torch?: boolean })
+          | undefined;
+        setTorchAvailable(Boolean(caps?.torch && controls.switchTorch));
+      } catch {
+        setTorchAvailable(false);
+      }
     } catch {
-      setCameraError("Couldn't access the camera. Check that you've allowed camera permission for this site.");
+      setCameraError(
+        "Couldn't access the camera. Check that you've allowed camera permission for this site, and that no other app or tab is using the camera."
+      );
     }
   }, [handleDecode]);
+
+  const toggleTorch = useCallback(async () => {
+    if (!controlsRef.current?.switchTorch) return;
+    try {
+      const next = !torchOn;
+      await controlsRef.current.switchTorch(next);
+      setTorchOn(next);
+    } catch {
+      setTorchAvailable(false);
+    }
+  }, [torchOn]);
 
   const resumeScanning = useCallback(() => {
     clearResumeTimer();
@@ -236,9 +284,16 @@ export function ScanIntake({
                 Start scanning
               </Button>
             ) : (
-              <Button variant="danger" onClick={stopCamera}>
-                Stop camera
-              </Button>
+              <>
+                <Button variant="danger" onClick={stopCamera}>
+                  Stop camera
+                </Button>
+                {torchAvailable && (
+                  <Button variant={torchOn ? "primary" : "default"} onClick={toggleTorch}>
+                    {torchOn ? "Flashlight on" : "Flashlight"}
+                  </Button>
+                )}
+              </>
             )}
           </div>
           {cameraError && <div className="mt-3 text-sm bg-alert-soft text-alert rounded-lg px-3 py-2">{cameraError}</div>}
@@ -256,6 +311,11 @@ export function ScanIntake({
               </div>
             )}
           </div>
+          {cameraOn && !paused && (
+            <div className="mt-2 text-xs text-ink-faint">
+              Hold the barcode flat, about 4–8 inches from the camera, with good light — it can take a second to lock focus.
+            </div>
+          )}
 
           <div className="mt-4 flex flex-wrap items-end gap-2">
             <Field label="Or type a UPC manually">

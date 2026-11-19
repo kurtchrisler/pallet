@@ -175,7 +175,7 @@ export function ImportItemsForm({ palletId, palletSource }: { palletId: string; 
               type="button"
               disabled={submitting || !hasNameMapped}
               onClick={handleImport}
-              className="bg-accent text-accent-ink font-semibold rounded-lg px-4 py-2 text-sm shadow-sm hover:brightness-[1.08] disabled:opacity-50 disabled:cursor-not-allowed"
+              className="bg-accent text-accent-ink font-semibold rounded-full px-4 py-2 text-sm shadow-sm hover:brightness-[1.08] disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {submitting ? "Importing…" : `Import ${mappedCount} item${mappedCount === 1 ? "" : "s"}`}
             </button>

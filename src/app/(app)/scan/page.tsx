@@ -21,8 +21,8 @@ export default async function ScanPage({
   if (!palletRows.length) {
     return (
       <section>
-        <h2 className="text-[1.05rem] font-display font-semibold">Scan intake</h2>
-        <p className="text-sm text-ink-soft mb-4">Scan a UPC while you unload a lot and FlipTrackr fills in what it knows.</p>
+        <h2 className="text-2xl font-display font-bold tracking-tight">Scan intake</h2>
+        <p className="text-sm text-ink-soft mt-1 mb-4">Scan a UPC while you unload a lot and FlipTrackr fills in what it knows.</p>
         <EmptyState>Add a lot on the Lots tab first, then come back here to scan items into it.</EmptyState>
       </section>
     );
@@ -32,8 +32,8 @@ export default async function ScanPage({
 
   return (
     <section>
-      <h2 className="text-[1.05rem] font-display font-semibold">Scan intake</h2>
-      <p className="text-sm text-ink-soft mb-4">Scan a UPC while you unload a lot and FlipTrackr fills in what it knows.</p>
+      <h2 className="text-2xl font-display font-bold tracking-tight">Scan intake</h2>
+      <p className="text-sm text-ink-soft mt-1 mb-4">Scan a UPC while you unload a lot and FlipTrackr fills in what it knows.</p>
       <ScanIntake
         pallets={palletRows.map((p) => ({ id: p.id, source: p.source, purchase_date: p.purchase_date }))}
         initialPalletId={initialPalletId}

@@ -97,7 +97,7 @@ export function BulkActionsBar({
             const message = action.confirm.replace("{count}", String(count)).replace("{label}", label);
             if (!confirm(message)) e.preventDefault();
           }}
-          className={`rounded-lg font-body border px-3 py-1.5 text-[0.78rem] shadow-sm disabled:opacity-40 disabled:cursor-not-allowed ${
+          className={`rounded-full font-body border px-3 py-1.5 text-[0.78rem] shadow-sm disabled:opacity-40 disabled:cursor-not-allowed ${
             TONE_CLASSES[action.tone ?? "default"]
           }`}
         >

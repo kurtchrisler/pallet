@@ -3,8 +3,7 @@ import { Wallet, TrendingUp, DollarSign, Package, Percent, Star, Plus } from "lu
 import { getAppContext } from "@/lib/app-context";
 import { agingItems, bestSources, computeMetrics, DASHBOARD_RANGES, fmtMoney, fmtMonth, monthlyPL } from "@/lib/calc";
 import type { Expense, Item, Pallet, Sale } from "@/lib/types";
-import { EmptyState, Field, KpiTile, SectionTitle, TableWrap, AgingBadge, Pill } from "@/components/ui";
-import { AutoSubmitSelect } from "@/components/AutoSubmitSelect";
+import { EmptyState, KpiTile, SectionTitle, TableWrap, AgingBadge, Pill } from "@/components/ui";
 
 export default async function DashboardPage({
   searchParams,
@@ -41,32 +40,37 @@ export default async function DashboardPage({
 
   return (
     <section>
-      <div className="flex items-start justify-between gap-3 mb-4">
+      <div className="flex items-start justify-between gap-3 mb-5">
         <div>
-          <h2 className="text-[1.05rem] font-display font-semibold">Dashboard</h2>
-          <p className="text-sm text-ink-soft">Your business at a glance.</p>
+          <h2 className="text-2xl font-display font-bold tracking-tight">Dashboard</h2>
+          <p className="text-sm text-ink-soft mt-1">Your business at a glance.</p>
         </div>
         <Link
           href="/items"
-          className="flex-none inline-flex items-center gap-1.5 bg-accent text-accent-ink font-semibold rounded-lg px-3.5 py-2 text-sm shadow-sm hover:brightness-[1.08]"
+          className="flex-none inline-flex items-center gap-1.5 bg-accent text-accent-ink font-semibold rounded-full px-3.5 py-2 text-sm shadow-sm hover:brightness-[1.08]"
         >
           <Plus size={16} strokeWidth={2.5} />
           Add Item
         </Link>
       </div>
 
-      <form method="get" className="flex justify-end mb-2.5">
-        <Field label="Showing">
-          <AutoSubmitSelect name="range" defaultValue={rangeParam} className="!w-auto py-1.5 text-sm">
-            <option value="all">All time</option>
-            {DASHBOARD_RANGES.map((d) => (
-              <option key={d} value={d}>
-                Last {d} day{d === 1 ? "" : "s"}
-              </option>
-            ))}
-          </AutoSubmitSelect>
-        </Field>
-      </form>
+      <div className="flex flex-wrap justify-end gap-2 mb-4">
+        {(["all", ...DASHBOARD_RANGES.map(String)] as const).map((key) => {
+          const active = rangeParam === key;
+          const label = key === "all" ? "All time" : `${key}d`;
+          return (
+            <a
+              key={key}
+              href={key === "all" ? "/dashboard" : `/dashboard?range=${key}`}
+              className={`inline-flex items-center rounded-full px-3 py-1.5 text-sm font-medium transition-colors ${
+                active ? "bg-accent text-accent-ink" : "bg-surface border border-line-strong text-ink-soft hover:border-ink-soft"
+              }`}
+            >
+              {label}
+            </a>
+          );
+        })}
+      </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 mb-5">
         <KpiTile
@@ -165,7 +169,7 @@ export default async function DashboardPage({
                     <AgingBadge days={x.days} />
                   </td>
                   <td className="px-2.5 py-2">
-                    <a href={`/sales?item=${x.item.id}`} className="rounded-lg border border-line-strong px-2.5 py-1.5 text-[0.78rem] shadow-sm hover:border-ink-soft">
+                    <a href={`/sales?item=${x.item.id}`} className="rounded-full border border-line-strong px-2.5 py-1.5 text-[0.78rem] shadow-sm hover:border-ink-soft">
                       Log sale
                     </a>
                   </td>
@@ -242,10 +246,10 @@ export default async function DashboardPage({
       )}
 
       <div className="flex flex-wrap gap-2 mt-5">
-        <a href="/api/export/sales" className="rounded-lg border border-line-strong px-4 py-2 text-sm shadow-sm hover:border-ink-soft">
+        <a href="/api/export/sales" className="rounded-full border border-line-strong px-4 py-2 text-sm shadow-sm hover:border-ink-soft">
           Export sales (CSV)
         </a>
-        <a href="/api/export/items" className="rounded-lg border border-line-strong px-4 py-2 text-sm shadow-sm hover:border-ink-soft">
+        <a href="/api/export/items" className="rounded-full border border-line-strong px-4 py-2 text-sm shadow-sm hover:border-ink-soft">
           Export inventory (CSV)
         </a>
       </div>

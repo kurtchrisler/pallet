@@ -27,7 +27,7 @@ function NavLinks({ pathname, onNavigate }: { pathname: string; onNavigate: () =
             key={t.href}
             href={t.href}
             onClick={onNavigate}
-            className={`flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+            className={`flex items-center gap-2.5 px-3 py-2.5 rounded-full text-sm font-medium transition-colors ${
               active ? "bg-accent text-accent-ink" : "text-sidebar-ink-soft hover:bg-white/5 hover:text-sidebar-ink"
             }`}
           >
@@ -55,7 +55,7 @@ function SidebarFooter({
       <Link
         href="/billing"
         onClick={onNavigate}
-        className="flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium text-sidebar-ink-soft hover:bg-white/5 hover:text-sidebar-ink transition-colors"
+        className="flex items-center gap-2.5 px-3 py-2.5 rounded-full text-sm font-medium text-sidebar-ink-soft hover:bg-white/5 hover:text-sidebar-ink transition-colors"
       >
         <CreditCard size={17} strokeWidth={2} className="flex-none" />
         Billing
@@ -64,7 +64,7 @@ function SidebarFooter({
       <form action={signOut}>
         <button
           type="submit"
-          className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-lg text-sm font-medium text-sidebar-ink-soft hover:bg-white/5 hover:text-sidebar-ink transition-colors"
+          className="w-full flex items-center gap-2.5 px-3 py-2.5 rounded-full text-sm font-medium text-sidebar-ink-soft hover:bg-white/5 hover:text-sidebar-ink transition-colors"
         >
           <LogOut size={17} strokeWidth={2} className="flex-none" />
           Log out

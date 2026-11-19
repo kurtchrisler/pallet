@@ -51,7 +51,7 @@ export function KpiTile({
       <div className="flex items-start justify-between gap-2">
         <div className="text-[0.7rem] font-medium text-ink-soft uppercase tracking-wide">{label}</div>
         {icon && (
-          <span className={`w-8 h-8 flex-none rounded-lg flex items-center justify-center ${s.badge} ${s.icon}`}>
+          <span className={`w-8 h-8 flex-none rounded-full flex items-center justify-center ${s.badge} ${s.icon}`}>
             {icon}
           </span>
         )}
@@ -100,7 +100,7 @@ export function Button({
   [key: string]: unknown;
 }) {
   const base =
-    "rounded-lg font-body font-medium border transition-colors inline-flex items-center justify-center gap-1.5";
+    "rounded-full font-body font-medium border transition-colors inline-flex items-center justify-center gap-1.5";
   const variants: Record<string, string> = {
     default: "bg-surface border-line-strong text-ink shadow-sm hover:border-ink-soft",
     primary: "bg-accent border-accent text-accent-ink font-semibold shadow-sm hover:brightness-[1.08]",

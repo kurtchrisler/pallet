@@ -20,41 +20,52 @@ export default async function ExpensesPage({
 
   return (
     <section>
-      <h2 className="text-[1.05rem] font-display font-semibold">Expenses</h2>
-      <p className="text-sm text-ink-soft mb-4">Everything besides lot cost — gas, storage, fees, supplies.</p>
+      <div className="flex flex-wrap items-start gap-3">
+        <div className="flex-1 min-w-[200px]">
+          <h2 className="text-2xl font-display font-bold tracking-tight">Expenses</h2>
+          <p className="text-sm text-ink-soft mt-1">Everything besides lot cost — gas, storage, fees, supplies.</p>
+        </div>
 
-      <Card>
-        <form action={submitExpense} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-          {editing && <input type="hidden" name="id" value={editing.id} />}
-          <Field label="Date">
-            <input type="date" name="expense_date" defaultValue={editing?.expense_date ?? new Date().toISOString().slice(0, 10)} />
-          </Field>
-          <Field label="Category">
-            <input name="category" list="expCatList" defaultValue={editing?.category ?? ""} placeholder="Category" />
-            <datalist id="expCatList">
-              {EXPENSE_CATS.map((c) => (
-                <option key={c} value={c} />
-              ))}
-            </datalist>
-          </Field>
-          <Field label="Amount ($)">
-            <input type="number" step="0.01" min="0" name="amount" required defaultValue={editing?.amount ?? ""} placeholder="0.00" />
-          </Field>
-          <Field label="Note" wide>
-            <input name="note" defaultValue={editing?.note ?? ""} placeholder="Optional" />
-          </Field>
-          <div className="col-span-full flex gap-2 items-center mt-1">
-            <button type="submit" className="bg-accent text-accent-ink font-semibold rounded-lg px-4 py-2 text-sm shadow-sm hover:brightness-[1.08]">
-              {editing ? "Save changes" : "Add expense"}
-            </button>
-            {editing && (
-              <a href="/expenses" className="text-ink-soft text-sm px-3 py-2">
-                Cancel
-              </a>
-            )}
+        <details className="contents" open={editing ? true : undefined}>
+          <summary className="list-none cursor-pointer select-none inline-flex items-center gap-1.5 rounded-full bg-accent text-accent-ink font-semibold text-sm px-4 py-2 shadow-sm hover:brightness-[1.08]">
+            <span className="text-base leading-none">+</span> Add expense
+          </summary>
+          <div className="basis-full">
+            <Card className="mt-3">
+              <form action={submitExpense} className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                {editing && <input type="hidden" name="id" value={editing.id} />}
+                <Field label="Date">
+                  <input type="date" name="expense_date" defaultValue={editing?.expense_date ?? new Date().toISOString().slice(0, 10)} />
+                </Field>
+                <Field label="Category">
+                  <input name="category" list="expCatList" defaultValue={editing?.category ?? ""} placeholder="Category" />
+                  <datalist id="expCatList">
+                    {EXPENSE_CATS.map((c) => (
+                      <option key={c} value={c} />
+                    ))}
+                  </datalist>
+                </Field>
+                <Field label="Amount ($)">
+                  <input type="number" step="0.01" min="0" name="amount" required defaultValue={editing?.amount ?? ""} placeholder="0.00" />
+                </Field>
+                <Field label="Note" wide>
+                  <input name="note" defaultValue={editing?.note ?? ""} placeholder="Optional" />
+                </Field>
+                <div className="col-span-full flex gap-2 items-center mt-1">
+                  <button type="submit" className="bg-accent text-accent-ink font-semibold rounded-full px-4 py-2 text-sm shadow-sm hover:brightness-[1.08]">
+                    {editing ? "Save changes" : "Add expense"}
+                  </button>
+                  {editing && (
+                    <a href="/expenses" className="text-ink-soft text-sm px-3 py-2">
+                      Cancel
+                    </a>
+                  )}
+                </div>
+              </form>
+            </Card>
           </div>
-        </form>
-      </Card>
+        </details>
+      </div>
 
       <SectionTitle title="Expense log" hint={`${rows.length} entries · ${fmtMoney(total)} total`} />
       {rows.length ? (
@@ -78,7 +89,7 @@ export default async function ExpensesPage({
                   <td className="px-2.5 py-2 text-right mono">{fmtMoney(e.amount)}</td>
                   <td className="px-2.5 py-2">
                     <div className="flex gap-1.5">
-                      <a href={`/expenses?edit=${e.id}`} className="rounded-lg border border-line-strong px-2.5 py-1.5 text-[0.78rem] shadow-sm hover:border-ink-soft">
+                      <a href={`/expenses?edit=${e.id}`} className="rounded-full border border-line-strong px-2.5 py-1.5 text-[0.78rem] shadow-sm hover:border-ink-soft">
                         Edit
                       </a>
                       <form action={deleteExpense}>

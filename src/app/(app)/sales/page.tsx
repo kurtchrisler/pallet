@@ -43,7 +43,7 @@ export default async function SalesPage({
           <p className="text-sm text-ink-soft mt-1">What sold, to whom, and where.</p>
         </div>
 
-        <details className="contents" open={editing ? true : undefined}>
+        <details className="contents" open={editing || preselectItem ? true : undefined}>
           <summary className="list-none cursor-pointer select-none inline-flex items-center gap-1.5 rounded-full bg-accent text-accent-ink font-semibold text-sm px-4 py-2 shadow-sm hover:brightness-[1.08]">
             <span className="text-base leading-none">+</span> Log sale
           </summary>

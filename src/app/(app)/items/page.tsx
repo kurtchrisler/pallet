@@ -63,7 +63,11 @@ export default async function ItemsPage({
     if (pallet !== "all" && i.pallet_id !== pallet) return false;
     if (listedFilter === "listed" && !i.listed) return false;
     if (listedFilter === "unlisted" && i.listed) return false;
-    if (q && !i.name.toLowerCase().includes(q.toLowerCase())) return false;
+    if (q) {
+      const needle = q.toLowerCase();
+      const haystack = [i.name, i.item_number, i.upc].filter(Boolean).join(" ").toLowerCase();
+      if (!haystack.includes(needle)) return false;
+    }
     return true;
   });
 
@@ -219,7 +223,7 @@ export default async function ItemsPage({
           </AutoSubmitSelect>
         </Field>
         <Field label="Search">
-          <input name="q" defaultValue={q} placeholder="Item name…" />
+          <input name="q" defaultValue={q} placeholder="Name, item #, or UPC…" />
         </Field>
         <button type="submit" className="self-end rounded-full border border-line-strong px-3.5 py-2 text-sm shadow-sm hover:border-ink-soft h-[38px]">
           Filter
